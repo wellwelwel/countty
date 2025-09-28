@@ -22,6 +22,6 @@
     "allowJs": false,
     "skipLibCheck": true,
     "noEmit": true,
-    "noEmitOnError": true,
-  },
+    "noEmitOnError": true
+  }
 }

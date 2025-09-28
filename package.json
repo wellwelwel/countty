@@ -1,8 +1,24 @@
 {
+  "name": "blog",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wellwelwel"
+  },
   "private": true,
   "scripts": {
     "start": "wrangler dev --ip 0.0.0.0",
-    "build": "rollup -c && cp -f wrangler.prod.jsonc server/wrangler.jsonc"
+    "build": "rollup -c && cp -f wrangler.prod.jsonc server/wrangler.jsonc",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "update": "pu minor && npm i && (npm audit fix || true)",
+    "postupdate": "npm run lint:fix",
+    "typecheck": "tsc",
+    "test": "npm run lint && npm run typecheck"
+  },
+  "dependencies": {
+    "lru.min": "^1.1.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250927.0",
@@ -17,7 +33,7 @@
     "typescript": "^5.9.2",
     "wrangler": "^4.40.2"
   },
-  "dependencies": {
-    "lru.min": "^1.1.2"
+  "engines": {
+    "node": ">=22.0"
   }
 }
