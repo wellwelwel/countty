@@ -4,7 +4,6 @@ import { checkToken, getApi } from 'src/helpers/auth.js';
 export const backup = async (context: RouteContext): Promise<Response> => {
   const { request, env, stub, response, headers } = context;
   const { filename, dump } = await stub.backup();
-
   const api = getApi(request);
 
   if (!(await checkToken(env.TOKEN, api)))
