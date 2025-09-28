@@ -5,17 +5,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": "src/index.ts",
-  "compatibility_date": "2025-04-10",
+  "compatibility_date": "2025-09-24",
   "send_metrics": false,
   "dev": {
     "port": 6061
   },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_classes": ["Counter"]
-    }
-  ],
   "durable_objects": {
     "bindings": [
       {
@@ -23,5 +17,11 @@
         "class_name": "Counter"
       }
     ]
-  }
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["Counter"]
+    }
+  ]
 }
