@@ -1,6 +1,6 @@
 {
   "name": "countty",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "./lib/index.js",
   "type": "module",
   "license": "AGPL-3.0-only",
@@ -42,6 +42,14 @@
   "files": [
     "lib"
   ],
+  "peerDependenciesMeta": {
+    "@cloudflare/workers-types": {
+      "optional": true
+    },
+    "wrangler": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=22.0"
   }

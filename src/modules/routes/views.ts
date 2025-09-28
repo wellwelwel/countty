@@ -3,8 +3,13 @@ import { normalizeChars } from '../../helpers/normalize-chars.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
   const { request, stub, response } = context;
-  const rawBody = await request.text();
-  const { slug: slugRaw } = JSON.parse(rawBody);
+
+  const url = new URL(request.url);
+  const slugRaw = url.searchParams.get('slug');
+
+  if (typeof slugRaw !== 'string' || !slugRaw) {
+    return response({ message: 'Slug parameter is required [1].' }, 400);
+  }
 
   if (typeof slugRaw !== 'string')
     return response({ message: 'Slug parameter is required [1].' }, 400);

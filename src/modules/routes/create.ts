@@ -9,10 +9,10 @@ export const create = async (context: RouteContext): Promise<Response> => {
   if (!(await checkToken(env.TOKEN, api)))
     return response({ message: 'Unauthorized.' }, 401);
 
-  const rawBody = await request.text();
-  const { slug: slugRaw } = JSON.parse(rawBody);
+  const url = new URL(request.url);
+  const slugRaw = url.searchParams.get('slug');
 
-  if (typeof slugRaw !== 'string') {
+  if (typeof slugRaw !== 'string' || !slugRaw) {
     return response({ message: 'Slug parameter is required [1].' }, 400);
   }
 

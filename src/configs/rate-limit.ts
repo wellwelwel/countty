@@ -22,7 +22,7 @@ const getRateLimitKey = (request: Request): string => {
 };
 
 export const RATE_LIMIT = {
-  MAX_REQUESTS: 10,
+  MAX_REQUESTS: 20,
   WINDOW_MS: 10000,
   BLOCK_DURATION_MS: 10000,
 };
