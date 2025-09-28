@@ -12,12 +12,7 @@ export default defineConfig({
     format: 'esm',
   },
   plugins: [
-    resolve({
-      preferBuiltins: false,
-      browser: false,
-      exportConditions: ['node', 'import', 'module', 'default'],
-      dedupe: [],
-    }),
+    resolve(),
     typescript({
       tsconfig: './tsconfig.json',
       compilerOptions: {
