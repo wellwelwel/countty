@@ -1,5 +1,5 @@
 import type { RouteContext } from '../worker.js';
-import { checkToken, getApi } from 'src/helpers/auth.js';
+import { checkToken, getApi } from '../../helpers/auth.js';
 import { normalizeChars } from '../../helpers/normalize-chars.js';
 
 export const create = async (context: RouteContext): Promise<Response> => {

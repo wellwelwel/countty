@@ -1,5 +1,5 @@
 import type { RouteContext } from '../worker.js';
-import { checkToken, getApi } from 'src/helpers/auth.js';
+import { checkToken, getApi } from '../../helpers/auth.js';
 
 export const backup = async (context: RouteContext): Promise<Response> => {
   const { request, env, stub, response, headers } = context;
