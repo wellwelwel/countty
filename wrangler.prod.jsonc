@@ -4,12 +4,6 @@
   "compatibility_date": "2025-09-24",
   "no_bundle": true,
   "send_metrics": false,
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_classes": ["Counter"]
-    }
-  ],
   "durable_objects": {
     "bindings": [
       {
@@ -18,6 +12,12 @@
       }
     ]
   },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Counter"]
+    }
+  ],
   "vars": {
     "ENVIRONMENT": "production"
   }
