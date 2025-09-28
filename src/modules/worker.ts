@@ -20,7 +20,9 @@ export const worker: ExportedHandler<Env> = {
     const rateLimit = checkRateLimit(request);
     const isProduction = env.ENVIRONMENT === 'production';
     const useOrigin = ALLOWED_ORIGINS.size > 0 && isProduction;
-    const origin = useOrigin ? request.headers.get('Origin') : null;
+    const origin = request.headers.get('Origin');
+
+    console.log(origin);
 
     if (
       useOrigin &&
