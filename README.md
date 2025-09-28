@@ -125,3 +125,17 @@ npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 > [!TIP]
 >
 > Create an `.env` file with the `TOKEN` variable to use the same token locally.
+
+### 🐬 SQL Options
+
+You can change the table name by specifying the name when creating **Countty**:
+
+```js
+import { createCountty } from 'countty';
+
+const { worker, Countty } = createCountty('my-table');
+
+export default worker;
+
+export { Countty };
+```
