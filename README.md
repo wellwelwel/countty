@@ -66,6 +66,12 @@ export { Countty };
 npx -y wrangler dev
 ```
 
+You can also install wrangler as a development dependency:
+
+```sh
+npm i -D wrangler
+```
+
 ---
 
 ### 🔗 API Routes
