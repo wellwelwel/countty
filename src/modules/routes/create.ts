@@ -4,13 +4,17 @@ import { normalizeChars } from '../../helpers/normalize-chars.js';
 
 export const create = async (context: RouteContext): Promise<Response> => {
   const { request, env, stub, response } = context;
+
+  if (request.method !== 'POST')
+    return new Response('Method not allowed.', { status: 405 });
+
   const api = getApi(request);
 
   if (!(await checkToken(env.TOKEN, api)))
     return response({ message: 'Unauthorized.' }, 401);
 
-  const url = new URL(request.url);
-  const slugRaw = url.searchParams.get('slug');
+  const rawBody = await request.text();
+  const { slug: slugRaw } = JSON.parse(rawBody);
 
   if (typeof slugRaw !== 'string' || !slugRaw) {
     return response({ message: 'Slug parameter is required [1].' }, 400);

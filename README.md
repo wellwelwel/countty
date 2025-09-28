@@ -5,7 +5,7 @@
 
 ---
 
-- Based on [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) and ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) ⛅️
+- Ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) and [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) ⛅️
 - No **VPS** or **Database** plans required 💳
 - No need to configure servers or databases ✨
 
@@ -89,16 +89,16 @@ npm i -D wrangler
 
 #### `/create`
 
-- Creates a new counter from the slug/
+- Creates a new counter for the specified slug.
 - Type: **private**.
 
->
-
 ```js
-fetch('http://localhost:8787/create?slug=test', {
+fetch('http://localhost:8787/create', {
+  method: 'POST',
   headers: {
     Authorization: 'Bearer 123456',
   },
+  body: JSON.stringify({ slug: 'test' }),
 })
   .then((res) => res.json())
   .then(console.log);
@@ -130,6 +130,10 @@ fetch('/backup', {
   .then((res) => res.text())
   .then(console.log);
 ```
+
+> [!NOTE]
+>
+> Private routes ensure that other people cannot misuse your counter.
 
 ---
 
