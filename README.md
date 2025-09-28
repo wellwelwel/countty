@@ -83,6 +83,10 @@ npm i -D wrangler
 
 ### 🔗 API Routes
 
+> [!IMPORTANT]
+>
+> By default, the token for private routes is `"123456"`. To change it, follow the steps in the next section.
+
 - `/create`: private
 
 >
@@ -105,7 +109,7 @@ fetch('http://localhost:8787/views?slug=test')
   .then(console.log);
 ```
 
-- `localhost:8787/backup`: private
+- `/backup`: private
 
 ```js
 fetch('/backup', {
@@ -116,10 +120,6 @@ fetch('/backup', {
   .then((res) => res.text())
   .then(console.log);
 ```
-
-> [!IMPORTANT]
->
-> By default, the token for private routes is `"123456"`. To change it, follow the steps below.
 
 ---
 
