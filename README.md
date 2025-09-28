@@ -7,8 +7,7 @@
 
 - Based on [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) and ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) ⛅️
 - No **VPS** or **Database** plans required 💳
-- No server or database configuration/setup required ✨
-- **Experimental:** under development 🚧
+- No need to configure servers or databases ✨
 
 ---
 
@@ -31,10 +30,12 @@ Create the files:
 ```js
 import { createCountty } from 'countty';
 
-const { worker, Countty } = createCountty();
+const { Worker, Countty } = createCountty();
 
-export default worker;
+// Worker Routes
+export default Worker;
 
+// Durable Object (SQLite)
 export { Countty };
 ```
 
@@ -67,6 +68,10 @@ export { Countty };
 ```sh
 npx -y wrangler dev
 ```
+
+> **Example**:
+>
+> <img src="./.github/assets/sample.png" width="480" />
 
 You can also install [**wrangler**](https://www.npmjs.com/package/wrangler) as a development dependency:
 
@@ -147,10 +152,12 @@ You can change the table name by specifying the name when creating **Countty**:
 ```js
 import { createCountty } from 'countty';
 
-const { worker, Countty } = createCountty('my-table');
+const { Worker, Countty } = createCountty({ table: 'my-table' });
 
+// Worker Routes
 export default worker;
 
+// Durable Object (SQLite)
 export { Countty };
 ```
 

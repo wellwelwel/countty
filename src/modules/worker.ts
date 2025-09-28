@@ -12,67 +12,75 @@ export type RouteContext = {
   response: (response: unknown, status?: number) => Response;
 };
 
-export const createCountty: (stubName?: string) => {
-  worker: ExportedHandler<Env>;
+export type Options = {
+  table?: string;
+};
+
+export const createCountty: (options?: Options) => {
+  Worker: ExportedHandler<Env>;
   Countty: ReturnType<typeof createDurableObject>;
-} = (stubName = 'countty') => ({
-  worker: {
-    async fetch(request: Request, env: Env): Promise<Response> {
-      const rateLimit = checkRateLimit(request);
+} = (options) => {
+  const stubName = (options || Object.create(null)).table || 'countty';
 
-      const headers = Object.freeze({
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Max-Age': '1800',
-        'Content-Type': 'application/json; charset=utf-8',
-        'X-RateLimit-Limit': String(RATE_LIMIT.MAX_REQUESTS),
-        'X-RateLimit-Remaining': String(rateLimit.remaining),
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
-      });
+  return {
+    Worker: {
+      async fetch(request: Request, env: Env): Promise<Response> {
+        const rateLimit = checkRateLimit(request);
 
-      const response = (response: unknown, status = 200) =>
-        new Response(JSON.stringify(response), { status, headers });
+        const headers = Object.freeze({
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Max-Age': '1800',
+          'Content-Type': 'application/json; charset=utf-8',
+          'X-RateLimit-Limit': String(RATE_LIMIT.MAX_REQUESTS),
+          'X-RateLimit-Remaining': String(rateLimit.remaining),
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+        });
 
-      if (!rateLimit.available)
-        return response(
-          { message: 'Request limit exceeded. Please try again later.' },
-          429
-        );
+        const response = (response: unknown, status = 200) =>
+          new Response(JSON.stringify(response), { status, headers });
 
-      try {
-        const url = new URL(request.url);
-        const id = env.countty.idFromName(stubName);
-        const stub = env.countty.get(id);
-        const routeContext: RouteContext = {
-          request,
-          env,
-          stub,
-          headers,
-          response,
-        };
+        if (!rateLimit.available)
+          return response(
+            { message: 'Request limit exceeded. Please try again later.' },
+            429
+          );
 
-        if (request.method === 'OPTIONS')
-          return new Response(null, { status: 204, headers });
+        try {
+          const url = new URL(request.url);
+          const id = env.countty.idFromName(stubName);
+          const stub = env.countty.get(id);
+          const routeContext: RouteContext = {
+            request,
+            env,
+            stub,
+            headers,
+            response,
+          };
 
-        /** Routes */
-        switch (url.pathname) {
-          case '/views':
-            return views(routeContext);
-          case '/create':
-            return create(routeContext);
-          case '/backup':
-            return backup(routeContext);
-          default:
-            return response({ message: 'Not found.' }, 404);
+          if (request.method === 'OPTIONS')
+            return new Response(null, { status: 204, headers });
+
+          /** Routes */
+          switch (url.pathname) {
+            case '/views':
+              return views(routeContext);
+            case '/create':
+              return create(routeContext);
+            case '/backup':
+              return backup(routeContext);
+            default:
+              return response({ message: 'Not found.' }, 404);
+          }
+        } catch (error) {
+          console.error(error);
+
+          return response({ message: 'Oops! Internal error.' }, 500);
         }
-      } catch (error) {
-        console.error(error);
-
-        return response({ message: 'Oops! Internal error.' }, 500);
-      }
+      },
     },
-  },
-  Countty: createDurableObject(stubName),
-});
+    Countty: createDurableObject(stubName),
+  };
+};
