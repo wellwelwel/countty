@@ -8,10 +8,11 @@
 - Ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) and [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) ⛅️
 - No **VPS** or **Database** plans required 💳
 - No need to configure servers or databases ✨
+- **Countty** isn't a plugin, but a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app.
 
 ---
 
-## 🧪 Quick Test Locally
+## 💻 Quickly try it out locally
 
 You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
 
@@ -25,7 +26,8 @@ npm i countty
 
 Create the files:
 
-- `index.js`
+<details>
+<summary><b><code>index.js</code></b></summary>
 
 ```js
 import { createCountty } from 'countty';
@@ -39,10 +41,14 @@ export default Worker;
 export { Countty };
 ```
 
-- `wrangler.json`
+</details>
+
+<details>
+<summary><b><code>wrangler.json</code></b></summary>
 
 ```json
 {
+  "name": "countty",
   "main": "index.js",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
@@ -59,9 +65,20 @@ export { Countty };
       "tag": "v1",
       "new_sqlite_classes": ["Countty"]
     }
-  ]
+  ],
+  "dev": {
+    "port": 8787
+  }
 }
 ```
+
+- Change the **Worker** app name in `name` property.
+  - Default is `countty`.
+- Change the **Worker** main file path in the `main` property.
+  - Default is `index.js`.
+  - It also supports **TypeScript** files.
+
+</details>
 
 ### 🏁 Run
 
@@ -159,7 +176,9 @@ npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 >
 > Create an `.env` file with the `TOKEN` variable to use the same token locally.
 
-### 🐬 SQL Options
+---
+
+## ✚ Countty Options
 
 You can change the table name by specifying the name when creating **Countty**:
 
@@ -181,3 +200,9 @@ export { Countty };
 
 - **Workers:** https://developers.cloudflare.com/workers/platform/pricing/
 - **Durable Objects (SQLite):** https://developers.cloudflare.com/durable-objects/platform/pricing/
+
+---
+
+## 🎓 Examples
+
+Soon.
