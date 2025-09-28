@@ -2,6 +2,7 @@
   "name": "countty",
   "version": "0.1.1",
   "main": "./lib/index.js",
+  "type": "module",
   "license": "AGPL-3.0-only",
   "funding": {
     "type": "github",
@@ -17,13 +18,13 @@
   "author": "https://github.com/wellwelwel",
   "scripts": {
     "start": "wrangler dev --ip 0.0.0.0",
-    "build": "rollup -c",
+    "build": "tsc",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "npm:patch": "npm version patch --no-git-tag-version",
     "update": "pu minor && npm i && (npm audit fix || true)",
     "postupdate": "npm run lint:fix",
-    "typecheck": "tsc",
+    "typecheck": "tsc --noEmit",
     "test": "npm run lint && npm run typecheck"
   },
   "dependencies": {
@@ -33,13 +34,8 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250927.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.4",
     "packages-update": "^2.0.0",
     "prettier": "^3.6.2",
-    "rollup": "^4.52.3",
-    "tslib": "^2.8.1",
     "typescript": "^5.9.2",
     "wrangler": "^4.40.2"
   },

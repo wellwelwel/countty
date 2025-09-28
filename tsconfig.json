@@ -2,9 +2,9 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "ESNext",
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "isolatedModules": true,
     "strict": true,
     "alwaysStrict": true,
@@ -18,13 +18,11 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
     "allowJs": false,
     "skipLibCheck": true,
-    "noEmit": true,
     "noEmitOnError": true,
     "declaration": true,
-    "declarationDir": "lib"
-  },
-  "exclude": ["lib"]
+    "declarationDir": "lib",
+    "outDir": "lib"
+  }
 }
