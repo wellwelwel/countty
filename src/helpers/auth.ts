@@ -15,7 +15,7 @@ export const checkToken = async (
   if (!api) return false;
 
   const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(token || '12456', salt);
+  const hash = await bcrypt.hash(token || '123456', salt);
 
   return bcrypt.compare(api, hash);
 };
