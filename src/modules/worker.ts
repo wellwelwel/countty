@@ -2,7 +2,7 @@
 
 import type { Env } from '../@types.js';
 import type { Counter } from './counter.js';
-import { ALLOWED_ORIGINS } from '../configs/origins.js';
+import { isValidOrigin } from '../configs/origins.js';
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
 import { backup, views } from './routes.js';
 
@@ -19,23 +19,24 @@ export const worker: ExportedHandler<Env> = {
     const stubName = 'global-counter';
     const rateLimit = checkRateLimit(request);
     const isProduction = env.ENVIRONMENT === 'production';
-    const useOrigin = ALLOWED_ORIGINS.size > 0 && isProduction;
     const origin = request.headers.get('Origin');
 
-    console.log(origin);
+    console.log('Origin:', origin);
 
-    if (
-      useOrigin &&
-      (!origin || typeof origin !== 'string' || !ALLOWED_ORIGINS.has(origin))
-    )
-      return new Response('Method not allowed.', { status: 405 });
+    if (isProduction && !isValidOrigin(origin))
+      return new Response('Forbidden: Invalid origin', { status: 403 });
 
     const headers = Object.freeze({
-      'Access-Control-Allow-Origin': useOrigin ? String(origin) : '*',
+      'Access-Control-Allow-Origin': isProduction ? String(origin) : '*',
       'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Max-Age': '1800',
       'Content-Type': 'application/json; charset=utf-8',
       'X-RateLimit-Limit': String(RATE_LIMIT.MAX_REQUESTS),
       'X-RateLimit-Remaining': String(rateLimit.remaining),
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
     });
 
     const response = (response: unknown, status = 200) =>
@@ -58,6 +59,9 @@ export const worker: ExportedHandler<Env> = {
         headers,
         response,
       };
+
+      if (request.method === 'OPTIONS')
+        return new Response(null, { status: 204, headers });
 
       /** Routes */
       switch (url.pathname) {
