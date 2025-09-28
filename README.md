@@ -70,7 +70,9 @@ npx -y wrangler dev
 
 ### 🔗 API Routes
 
-- `/create`: private route
+- `/create`: private
+
+>
 
 ```js
 fetch('http://localhost:8787/create?slug=test', {
@@ -82,7 +84,7 @@ fetch('http://localhost:8787/create?slug=test', {
   .then(console.log);
 ```
 
-- `/views`: public route
+- `/views`: public
 
 ```js
 fetch('http://localhost:8787/views?slug=test')
@@ -90,7 +92,7 @@ fetch('http://localhost:8787/views?slug=test')
   .then(console.log);
 ```
 
-- `localhost:8787/backup`: private route
+- `localhost:8787/backup`: private
 
 ```js
 fetch('/backup', {
@@ -104,7 +106,7 @@ fetch('/backup', {
 
 > [!IMPORTANT]
 >
-> By default, the token for private routes is `123456`. To change it, follow the steps below.
+> By default, the token for private routes is `"123456"`. To change it, follow the steps below.
 
 ---
 
@@ -120,7 +122,7 @@ npx wrangler deploy
 
 ### 🔑 Personalize your Token
 
-To use in production, please craete your personal token:
+To use in production, please create your personal token:
 
 ```sh
 npx wrangler secret put TOKEN # Then press `Enter` to insert your token
