@@ -5,14 +5,14 @@
 
 ---
 
-- Based on Durable Objects and ready for use via Cloudflare Workers ⛅️
+- Based on Durable Objects and ready for use via **Cloudflare Workers** ⛅️
 - No **VPS** or **Database** plans required ✨
 
 ---
 
 ## 🧪 Quick Test Locally
 
-You can test locally, even if you don't have a Cloudflare account.
+You can test locally, even if you don't have a **Cloudflare** account.
 
 ### 📦 Install
 
@@ -106,7 +106,7 @@ fetch('/backup', {
 
 ## 🔐 Production Usage
 
-For production use, you will need a Cloudflare account to proceed.
+For production use, you will need a **Cloudflare** account to proceed.
 
 ### ⛅️ Create your worker
 
