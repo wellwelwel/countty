@@ -1,5 +1,5 @@
 <div align="center">
   <h1>Countty</h1>
-  <p>Create your own pageview counter based on <b>Durable Objects</b> ready for use via <b>Cloudflare Workers</b>.</p>
-  <h4>No VPS or Database required.</h4>
+  <p>Easily create your own <b>Page View Counter</b> completely for free.</p>
+  <h4>Based on Durable Objects and ready for use via Cloudflare Workers <i>(no VPS or Database services/plans required)</i>.</h4>
 </div>
