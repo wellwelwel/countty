@@ -1,18 +1,20 @@
 <div align="center">
   <h1>Countty ✚</h1>
-  <p>Easily persist your own <b>Page View Counter</b> completely for free.</p>
+  <p>Easily persist your own <b>Page View Counter</b> for free.</p>
 </div>
 
 ---
 
-- Based on Durable Objects and ready for use via **Cloudflare Workers** ⛅️
-- No **VPS** or **Database** plans required ✨
+- Based on [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) and ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) ⛅️
+- No **VPS** or **Database** plans required 💳
+- No server or database configuration/setup required ✨
+- **Experimental:** under development 🚧
 
 ---
 
 ## 🧪 Quick Test Locally
 
-You can test locally, even if you don't have a **Cloudflare** account.
+You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
 
 ### 📦 Install
 
@@ -66,7 +68,7 @@ export { Countty };
 npx -y wrangler dev
 ```
 
-You can also install wrangler as a development dependency:
+You can also install [**wrangler**](https://www.npmjs.com/package/wrangler) as a development dependency:
 
 ```sh
 npm i -D wrangler
@@ -118,7 +120,7 @@ fetch('/backup', {
 
 ## 🔐 Production Usage
 
-For production use, you will need a **Cloudflare** account to proceed.
+For production use, you will need a [**Cloudflare**](https://dash.cloudflare.com/) account to proceed.
 
 ### ⛅️ Create your worker
 
@@ -151,3 +153,10 @@ export default worker;
 
 export { Countty };
 ```
+
+---
+
+## ⚖️ Restrictions on the free plan:
+
+- **Workers:** https://developers.cloudflare.com/workers/platform/pricing/
+- **Durable Objects (SQLite):** https://developers.cloudflare.com/durable-objects/platform/pricing/
