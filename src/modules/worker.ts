@@ -43,8 +43,8 @@ export const createCountty: (stubName?: string) => {
 
       try {
         const url = new URL(request.url);
-        const id = env.counter.idFromName(stubName);
-        const stub = env.counter.get(id);
+        const id = env.countty.idFromName(stubName);
+        const stub = env.countty.get(id);
         const routeContext: RouteContext = {
           request,
           env,
