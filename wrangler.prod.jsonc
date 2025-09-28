@@ -1,0 +1,24 @@
+{
+  "name": "blog",
+  "main": "index.js",
+  "compatibility_date": "2025-04-10",
+  "no_bundle": true,
+  "send_metrics": false,
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["Counter"]
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "counter",
+        "class_name": "Counter"
+      }
+    ]
+  },
+  "vars": {
+    "ENVIRONMENT": "production"
+  }
+}

@@ -1,0 +1,27 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-10",
+  "send_metrics": false,
+  "dev": {
+    "port": 6061
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["Counter"]
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "counter",
+        "class_name": "Counter"
+      }
+    ]
+  }
+}
