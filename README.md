@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Countty ✚</h1>
-  <p>Easily create your own <b>Page View Counter</b> completely for free.</p>
+  <p>Easily persist your own <b>Page View Counter</b> completely for free.</p>
 </div>
 
 ---
@@ -14,9 +14,11 @@
 
 ---
 
-## Quick Test
+## Quick Test Locally
 
-> Do not use in production ❗️
+```sh
+npm i countty
+```
 
 ### Worker
 
@@ -52,10 +54,7 @@ export { Countty };
       "tag": "v1",
       "new_sqlite_classes": ["Countty"]
     }
-  ],
-  "vars": {
-    "TOKEN": "123456"
-  }
+  ]
 }
 ```
 
@@ -72,31 +71,49 @@ npx -y wrangler dev
 - `localhost:8787/create`
 
 ```js
-const create = await fetch('http://localhost:8787/create?slug=test', {
+fetch('http://localhost:8787/create?slug=test', {
   headers: {
     Authorization: 'Bearer 123456',
   },
-});
-
-console.log(await create.json());
+})
+  .then((res) => res.json())
+  .then(console.log);
 ```
 
 - `localhost:8787/views`
 
 ```js
-const views = await fetch('http://localhost:8787/views?slug=test');
-
-console.log(await views.json());
+fetch('http://localhost:8787/views?slug=test')
+  .then((res) => res.json())
+  .then(console.log);
 ```
 
 - `localhost:8787/backup`
 
 ```js
-const backup = await fetch('http://localhost:8787/backup', {
+fetch('http://localhost:8787/backup', {
   headers: {
     Authorization: 'Bearer 123456',
   },
-});
+})
+  .then((res) => res.text())
+  .then(console.log);
+```
 
-console.log(await backup.text());
+---
+
+## Production Usage
+
+### Create your worker
+
+```sh
+npx wrangler deploy
+```
+
+### Personal Token
+
+🔐 To use in production, please modify your personal token:
+
+```sh
+npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 ```
