@@ -61,9 +61,9 @@ export const worker: ExportedHandler<Env> = {
       /** Routes */
       switch (url.pathname) {
         case '/views':
-          return views(routeContext);
+          return await views(routeContext);
         case '/backup':
-          return backup(routeContext);
+          return await backup(routeContext);
         default:
           return response({ message: 'Not found.' }, 404);
       }
