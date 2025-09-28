@@ -30,7 +30,6 @@ export const worker: ExportedHandler<Env> = {
 
     const headers = Object.freeze({
       'Access-Control-Allow-Origin': useOrigin ? String(origin) : '*',
-      'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Content-Type': 'application/json; charset=utf-8',
       'X-RateLimit-Limit': String(RATE_LIMIT.MAX_REQUESTS),
