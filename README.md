@@ -102,6 +102,10 @@ fetch('/backup', {
   .then(console.log);
 ```
 
+> [!IMPORTANT]
+>
+> By default, the token for private routes is `123456`. To change it, follow the steps below.
+
 ---
 
 ## 🔐 Production Usage
