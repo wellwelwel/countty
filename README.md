@@ -10,17 +10,19 @@
 
 ---
 
-> WIP 🚧
+## 🧪 Quick Test Locally
 
----
+You can test locally, even if you don't have a Cloudflare account.
 
-## Quick Test Locally
+### 📦 Install
 
 ```sh
 npm i countty
 ```
 
-### Worker
+### ⛅️ Worker
+
+Create the files:
 
 - `index.js`
 
@@ -58,7 +60,7 @@ export { Countty };
 }
 ```
 
-Then, run:
+### 🏁 Run
 
 ```sh
 npx -y wrangler dev
@@ -66,9 +68,9 @@ npx -y wrangler dev
 
 ---
 
-### API
+### 🔗 API Routes
 
-- `localhost:8787/create`
+- `/create`: private route
 
 ```js
 fetch('http://localhost:8787/create?slug=test', {
@@ -80,7 +82,7 @@ fetch('http://localhost:8787/create?slug=test', {
   .then(console.log);
 ```
 
-- `localhost:8787/views`
+- `/views`: public route
 
 ```js
 fetch('http://localhost:8787/views?slug=test')
@@ -88,10 +90,10 @@ fetch('http://localhost:8787/views?slug=test')
   .then(console.log);
 ```
 
-- `localhost:8787/backup`
+- `localhost:8787/backup`: private route
 
 ```js
-fetch('http://localhost:8787/backup', {
+fetch('/backup', {
   headers: {
     Authorization: 'Bearer 123456',
   },
@@ -102,18 +104,24 @@ fetch('http://localhost:8787/backup', {
 
 ---
 
-## Production Usage
+## 🔐 Production Usage
 
-### Create your worker
+For production use, you will need a Cloudflare account to proceed.
+
+### ⛅️ Create your worker
 
 ```sh
 npx wrangler deploy
 ```
 
-### Personal Token
+### 🔑 Personalize your Token
 
-🔐 To use in production, please modify your personal token:
+To use in production, please craete your personal token:
 
 ```sh
 npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 ```
+
+> [!TIP]
+>
+> Create an `.env` file with the `TOKEN` variable to use the same token locally.
