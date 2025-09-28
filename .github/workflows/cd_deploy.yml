@@ -39,12 +39,3 @@ jobs:
 
       - name: Building Site
         run: npm run build
-
-      - name: Deploy — Server
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./server
-          publish_branch: 'server'
-          allow_empty_commit: false
-          enable_jekyll: true

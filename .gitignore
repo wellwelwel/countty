@@ -1,5 +1,5 @@
 /node_modules
-/server
+/lib
 .DS_Store
 .env
 .wrangler

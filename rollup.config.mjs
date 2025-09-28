@@ -8,7 +8,7 @@ import { defineConfig } from 'rollup';
 export default defineConfig({
   input: 'src/index.ts',
   output: {
-    file: 'server/index.js',
+    file: 'lib/index.js',
     format: 'esm',
   },
   plugins: [

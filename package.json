@@ -7,9 +7,10 @@
     "url": "https://github.com/sponsors/wellwelwel"
   },
   "private": true,
+  "main": "./lib/index.js",
   "scripts": {
     "start": "wrangler dev --ip 0.0.0.0",
-    "build": "rollup -c && cp -f wrangler.prod.jsonc server/wrangler.jsonc",
+    "build": "rollup -c",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "update": "pu minor && npm i && (npm audit fix || true)",

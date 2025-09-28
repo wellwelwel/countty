@@ -7,23 +7,24 @@
   "name": "countty",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-24",
+  "no_bundle": true,
   "send_metrics": false,
   "compatibility_flags": ["nodejs_compat"],
-  "dev": {
-    "port": 6061
-  },
   "durable_objects": {
     "bindings": [
       {
-        "name": "counter",
-        "class_name": "Counter"
+        "name": "countty",
+        "class_name": "Countty"
       }
     ]
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["Counter"]
+      "new_sqlite_classes": ["Countty"]
     }
-  ]
+  ],
+  "dev": {
+    "port": 6061
+  }
 }

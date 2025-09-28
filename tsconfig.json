@@ -22,6 +22,9 @@
     "allowJs": false,
     "skipLibCheck": true,
     "noEmit": true,
-    "noEmitOnError": true
-  }
+    "noEmitOnError": true,
+    "declaration": true,
+    "declarationDir": "lib"
+  },
+  "exclude": ["lib"]
 }
