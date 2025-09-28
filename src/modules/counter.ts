@@ -8,21 +8,21 @@ export class Counter extends DurableObject<Env> {
     super(ctx, env);
 
     const sql =
-      'CREATE TABLE IF NOT EXISTS `counter`(`id` INTEGER PRIMARY KEY, `slug` VARCHAR(64) UNIQUE NOT NULL, `views` INTEGER DEFAULT 0);';
+      'CREATE TABLE IF NOT EXISTS `contty`(`id` INTEGER PRIMARY KEY, `slug` VARCHAR(64) UNIQUE NOT NULL, `views` INTEGER DEFAULT 0);';
 
     this.sql = ctx.storage.sql;
     this.sql.exec(sql);
   }
 
   async get(slug: string): Promise<number> {
-    const sql = 'SELECT `views` FROM `counter` WHERE slug = ?';
+    const sql = 'SELECT `views` FROM `contty` WHERE slug = ?';
     const results = this.sql.exec(sql, slug).toArray();
 
     return Number(results[0]?.views) || 0;
   }
 
   async exists(slug: string): Promise<boolean> {
-    const sql = 'SELECT 1 FROM `counter` WHERE `slug` = ? LIMIT 1';
+    const sql = 'SELECT 1 FROM `contty` WHERE `slug` = ? LIMIT 1';
     const results = this.sql.exec(sql, slug).toArray();
 
     return results.length > 0;
@@ -30,7 +30,7 @@ export class Counter extends DurableObject<Env> {
 
   async increment(slug: string): Promise<number> {
     try {
-      const sql = 'UPDATE `counter` SET `views` = `views` + 1 WHERE `slug` = ?';
+      const sql = 'UPDATE `contty` SET `views` = `views` + 1 WHERE `slug` = ?';
 
       this.sql.exec(sql, slug);
 
@@ -41,7 +41,7 @@ export class Counter extends DurableObject<Env> {
   }
 
   async create(slug: string): Promise<boolean> {
-    const sql = 'INSERT INTO `counter` (`slug`, `views`) VALUES (?, 0)';
+    const sql = 'INSERT INTO `contty` (`slug`, `views`) VALUES (?, 0)';
 
     try {
       this.sql.exec(sql, slug);
@@ -53,7 +53,7 @@ export class Counter extends DurableObject<Env> {
 
   async set(slug: string, views: number): Promise<void> {
     const sql =
-      'INSERT INTO `counter` (`slug`, `views`) VALUES (?, ?) ON CONFLICT(`slug`) DO UPDATE SET `views` = `excluded`.`views`';
+      'INSERT INTO `contty` (`slug`, `views`) VALUES (?, ?) ON CONFLICT(`slug`) DO UPDATE SET `views` = `excluded`.`views`';
     this.sql.exec(sql, slug, views);
   }
 
@@ -69,7 +69,7 @@ export class Counter extends DurableObject<Env> {
       )
       .toArray();
     const data = this.sql
-      .exec('SELECT * FROM `counter` ORDER BY `id` ASC')
+      .exec('SELECT * FROM `contty` ORDER BY `id` ASC')
       .toArray();
 
     let sqlDump = '-- Counter Database Backup\n';
@@ -83,7 +83,7 @@ export class Counter extends DurableObject<Env> {
 
     if (data.length > 0) {
       sqlDump += '-- Table data\n';
-      sqlDump += 'INSERT INTO `counter` (`id`, `slug`, `views`) VALUES\n';
+      sqlDump += 'INSERT INTO `contty` (`id`, `slug`, `views`) VALUES\n';
 
       const values = data
         .map((row) => `(${row.id}, '${String(row.slug)}', ${row.views})`)

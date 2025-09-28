@@ -11,9 +11,10 @@ export type RouteContext = {
   response: (response: unknown, status?: number) => Response;
 };
 
-export const worker: ExportedHandler<Env> = {
+export const createWorker: (stubName?: string) => ExportedHandler<Env> = (
+  stubName = 'countty'
+) => ({
   async fetch(request: Request, env: Env): Promise<Response> {
-    const stubName = 'global-counter';
     const rateLimit = checkRateLimit(request);
     const isProduction = env.ENVIRONMENT === 'production';
 
@@ -70,4 +71,4 @@ export const worker: ExportedHandler<Env> = {
       return response({ message: 'Oops! Internal error.' }, 500);
     }
   },
-};
+});
