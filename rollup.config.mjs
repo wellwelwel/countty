@@ -12,9 +12,19 @@ export default defineConfig({
     format: 'esm',
   },
   plugins: [
-    resolve(),
+    resolve({
+      preferBuiltins: false,
+      browser: false,
+      exportConditions: ['node', 'import', 'module', 'default'],
+      dedupe: [],
+    }),
     typescript({
       tsconfig: './tsconfig.json',
+      compilerOptions: {
+        module: 'ESNext',
+        target: 'ESNext',
+        moduleResolution: 'node',
+      },
     }),
     terser({
       format: {
@@ -22,4 +32,5 @@ export default defineConfig({
       },
     }),
   ],
+  external: ['cloudflare:workers'],
 });
