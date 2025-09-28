@@ -1,6 +1,6 @@
 {
   "name": "countty",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./lib/index.js",
   "license": "AGPL-3.0-only",
   "funding": {
@@ -20,6 +20,7 @@
     "build": "rollup -c",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
+    "npm:patch": "npm version patch --no-git-tag-version",
     "update": "pu minor && npm i && (npm audit fix || true)",
     "postupdate": "npm run lint:fix",
     "typecheck": "tsc",

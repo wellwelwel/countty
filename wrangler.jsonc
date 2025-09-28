@@ -7,7 +7,6 @@
   "name": "countty",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-24",
-  "no_bundle": true,
   "send_metrics": false,
   "compatibility_flags": ["nodejs_compat"],
   "durable_objects": {

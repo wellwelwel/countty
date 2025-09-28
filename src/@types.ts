@@ -1,6 +1,6 @@
-import type { Counter } from './modules/counter.js';
+import type { Countty } from './modules/counter.js';
 
 export type Env = {
-  counter: DurableObjectNamespace<Counter>;
+  counter: DurableObjectNamespace<Countty>;
   TOKEN: string;
 };

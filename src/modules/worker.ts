@@ -1,5 +1,5 @@
 import type { Env } from '../@types.js';
-import type { Counter } from './counter.js';
+import type { Countty } from './counter.js';
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
 import { createDurableObject } from './counter.js';
 import { backup, create, views } from './routes.js';
@@ -7,14 +7,14 @@ import { backup, create, views } from './routes.js';
 export type RouteContext = {
   request: Request;
   env: Env;
-  stub: DurableObjectStub<Counter>;
+  stub: DurableObjectStub<Countty>;
   headers: Record<string, string>;
   response: (response: unknown, status?: number) => Response;
 };
 
 export const createCountty: (stubName?: string) => {
   worker: ExportedHandler<Env>;
-  Counter: ReturnType<typeof createDurableObject>;
+  Countty: ReturnType<typeof createDurableObject>;
 } = (stubName = 'countty') => ({
   worker: {
     async fetch(request: Request, env: Env): Promise<Response> {
@@ -74,5 +74,5 @@ export const createCountty: (stubName?: string) => {
       }
     },
   },
-  Counter: createDurableObject(stubName),
+  Countty: createDurableObject(stubName),
 });

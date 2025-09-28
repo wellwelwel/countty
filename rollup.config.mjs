@@ -27,5 +27,5 @@ export default defineConfig({
       },
     }),
   ],
-  external: ['cloudflare:workers'],
+  external: ['bcryptjs', 'cloudflare:workers', 'lru.min'],
 });
