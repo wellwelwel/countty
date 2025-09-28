@@ -1,13 +1,21 @@
 {
   "name": "countty",
   "version": "0.1.0",
+  "main": "./lib/index.js",
   "license": "AGPL-3.0-only",
+  "private": true,
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/wellwelwel"
   },
-  "private": true,
-  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellwelwel/countty.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wellwelwel/countty/issues"
+  },
+  "author": "https://github.com/wellwelwel",
   "scripts": {
     "start": "wrangler dev --ip 0.0.0.0",
     "build": "rollup -c",
