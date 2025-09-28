@@ -87,7 +87,10 @@ npm i -D wrangler
 >
 > By default, the token for private routes is `"123456"`. To change it, follow the steps in the next section.
 
-- `/create`: private
+#### `/create`
+
+- Creates a new counter from the slug/
+- Type: **private**.
 
 >
 
@@ -101,7 +104,11 @@ fetch('http://localhost:8787/create?slug=test', {
   .then(console.log);
 ```
 
-- `/views`: public
+#### `/views`
+
+- Increments a view and returns the number of views for the specified slug.
+- Returns `0` when the slug does not exist.
+- Type: **public**.
 
 ```js
 fetch('http://localhost:8787/views?slug=test')
@@ -109,7 +116,10 @@ fetch('http://localhost:8787/views?slug=test')
   .then(console.log);
 ```
 
-- `/backup`: private
+#### `/backup`
+
+- Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.
+- Type: **private**.
 
 ```js
 fetch('/backup', {
@@ -155,7 +165,7 @@ import { createCountty } from 'countty';
 const { Worker, Countty } = createCountty({ table: 'my-table' });
 
 // Worker Routes
-export default worker;
+export default Worker;
 
 // Durable Object (SQLite)
 export { Countty };
