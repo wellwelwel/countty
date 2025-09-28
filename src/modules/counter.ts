@@ -1,5 +1,3 @@
-/// <reference types="@cloudflare/workers-types" />
-
 import type { Env } from '../@types.js';
 import { DurableObject } from 'cloudflare:workers';
 
@@ -21,6 +19,36 @@ export class Counter extends DurableObject<Env> {
     const results = this.sql.exec(sql, slug).toArray();
 
     return Number(results[0]?.views) || 0;
+  }
+
+  async exists(slug: string): Promise<boolean> {
+    const sql = 'SELECT 1 FROM `counter` WHERE `slug` = ? LIMIT 1';
+    const results = this.sql.exec(sql, slug).toArray();
+
+    return results.length > 0;
+  }
+
+  async increment(slug: string): Promise<number> {
+    try {
+      const sql = 'UPDATE `counter` SET `views` = `views` + 1 WHERE `slug` = ?';
+
+      this.sql.exec(sql, slug);
+
+      return this.get(slug);
+    } catch {
+      return 0;
+    }
+  }
+
+  async create(slug: string): Promise<boolean> {
+    const sql = 'INSERT INTO `counter` (`slug`, `views`) VALUES (?, 0)';
+
+    try {
+      this.sql.exec(sql, slug);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async set(slug: string, views: number): Promise<void> {

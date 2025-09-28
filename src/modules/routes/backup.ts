@@ -1,11 +1,14 @@
-/// <reference types="@cloudflare/workers-types" />
-
 import type { RouteContext } from '../worker.js';
+import { checkToken, getApi } from 'src/helpers/auth.js';
 
 export const backup = async (context: RouteContext): Promise<Response> => {
-  const { stub, headers } = context;
-
+  const { request, env, stub, response, headers } = context;
   const { filename, dump } = await stub.backup();
+
+  const api = getApi(request);
+
+  if (!(await checkToken(env.TOKEN, api)))
+    return response({ message: 'Unauthorized.' }, 401);
 
   return new Response(new TextDecoder().decode(dump), {
     status: 200,

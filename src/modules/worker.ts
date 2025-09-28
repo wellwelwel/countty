@@ -1,10 +1,7 @@
-/// <reference types="@cloudflare/workers-types" />
-
 import type { Env } from '../@types.js';
 import type { Counter } from './counter.js';
-import { isValidOrigin } from '../configs/origins.js';
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
-import { backup, views } from './routes.js';
+import { backup, create, views } from './routes.js';
 
 export type RouteContext = {
   request: Request;
@@ -19,15 +16,9 @@ export const worker: ExportedHandler<Env> = {
     const stubName = 'global-counter';
     const rateLimit = checkRateLimit(request);
     const isProduction = env.ENVIRONMENT === 'production';
-    const origin = request.headers.get('Origin');
-
-    console.log('Origin:', origin);
-
-    if (isProduction && !isValidOrigin(origin))
-      return new Response('Forbidden: Invalid origin', { status: 403 });
 
     const headers = Object.freeze({
-      'Access-Control-Allow-Origin': isProduction ? String(origin) : '*',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Max-Age': '1800',
@@ -36,7 +27,6 @@ export const worker: ExportedHandler<Env> = {
       'X-RateLimit-Remaining': String(rateLimit.remaining),
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
-      'Referrer-Policy': 'strict-origin-when-cross-origin',
     });
 
     const response = (response: unknown, status = 200) =>
@@ -66,9 +56,11 @@ export const worker: ExportedHandler<Env> = {
       /** Routes */
       switch (url.pathname) {
         case '/views':
-          return await views(routeContext);
+          return views(routeContext);
+        case '/create':
+          return create(routeContext);
         case '/backup':
-          return await backup(routeContext);
+          return backup(routeContext);
         default:
           return response({ message: 'Not found.' }, 404);
       }
