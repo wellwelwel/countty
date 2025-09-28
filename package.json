@@ -1,6 +1,7 @@
 {
   "name": "countty",
-  "version": "0.1.5",
+  "description": "✚ Easily create your own Page View Counter completely for free (no VPS or database plans required)",
+  "version": "0.1.6",
   "main": "./lib/index.js",
   "type": "module",
   "license": "AGPL-3.0-only",
