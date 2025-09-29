@@ -1,15 +1,15 @@
 import type { Env } from '../@types.js';
 import type { Countty } from './counter.js';
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
+import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
 import { backup, create, views } from './routes.js';
 
 export type RouteContext = {
   request: Request;
   env: Env;
-  stub: DurableObjectStub<Countty>;
-  headers: Record<string, string>;
-  response: (response: unknown, status?: number) => Response;
+  Countty: DurableObjectStub<Countty>;
+  headers?: Record<string, string>;
 };
 
 export type Options = {
@@ -39,14 +39,14 @@ export const createCountty: (options?: Options) => {
           'X-Frame-Options': 'DENY',
         });
 
-        const response = (response: unknown, status = 200) =>
-          new Response(JSON.stringify(response), { status, headers });
-
         if (!rateLimit.available)
-          return response(
-            { message: 'Request limit exceeded. Please try again later.' },
-            429
-          );
+          return response({
+            response: {
+              message: 'Request limit exceeded. Please try again later.',
+            },
+            status: 429,
+            headers,
+          });
 
         try {
           const url = new URL(request.url);
@@ -55,9 +55,8 @@ export const createCountty: (options?: Options) => {
           const routeContext: RouteContext = {
             request,
             env,
-            stub,
+            Countty: stub,
             headers,
-            response,
           };
 
           if (request.method === 'OPTIONS')
@@ -72,12 +71,19 @@ export const createCountty: (options?: Options) => {
             case '/backup':
               return backup(routeContext);
             default:
-              return response({ message: 'Not found.' }, 404);
+              return response({
+                response: { message: 'Not found.' },
+                status: 404,
+                headers,
+              });
           }
         } catch (error) {
           console.error(error);
 
-          return response({ message: 'Oops! Internal error.' }, 500);
+          return response({
+            response: { message: 'Oops! Internal error.' },
+            status: 500,
+          });
         }
       },
     },
