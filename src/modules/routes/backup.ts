@@ -7,7 +7,7 @@ export const backup = async (context: RouteContext): Promise<Response> => {
   const { filename, dump } = await Countty.backup();
   const api = getApi(request);
 
-  if (!(await checkToken(env.TOKEN, api)))
+  if (!(await checkToken(env?.TOKEN, api)))
     return response({ response: { message: 'Unauthorized.' }, status: 401 });
 
   return new Response(new TextDecoder().decode(dump), {

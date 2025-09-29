@@ -7,7 +7,7 @@ import { backup, create, views } from './routes.js';
 
 export type RouteContext = {
   request: Request;
-  env: Env;
+  env?: Env;
   Countty: DurableObjectStub<Countty>;
   headers?: Record<string, string>;
 };
