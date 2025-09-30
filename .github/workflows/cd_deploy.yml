@@ -18,6 +18,16 @@ jobs:
     if: ${{ github.event.repository.fork == false && github.ref == 'refs/heads/main' }}
     name: Deploy
     steps:
+      - name: Releasing
+        if: ${{ github.event.repository.fork == false }}
+        uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node
+          package-name: countty
+          changelog-path: 'CHANGELOG.md'
+
       - name: Actions - Checkout
         uses: actions/checkout@v4
 
@@ -42,18 +52,8 @@ jobs:
       - name: Building
         run: npm run build
 
-      - name: 🤝 Releasing
-        if: ${{ github.event.repository.fork == false }}
-        uses: google-github-actions/release-please-action@v3
-        id: release
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: node
-          package-name: countty
-          changelog-path: 'CHANGELOG.md'
-
       - name: 📥 Publishing Package
-        if: ${{ steps.release.outputs.releases_created }}
+        # if: ${{ steps.release.outputs.releases_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance
