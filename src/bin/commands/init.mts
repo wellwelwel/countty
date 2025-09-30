@@ -32,7 +32,7 @@ const npmInstall = async () => {
     });
 
     child.on('close', () => {
-      console.log('✅ Dependencies installed');
+      console.log('🎉 \x1b[1mCountty\x1b[0m project initialized successfully!');
       resolve();
     });
   });

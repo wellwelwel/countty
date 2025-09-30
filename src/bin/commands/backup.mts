@@ -16,5 +16,5 @@ export async function backup(COUNTTY_URL: string, COUNTTY_TOKEN: string) {
   await mkdir(backupsDir, { recursive: true });
   await writeFile(filename, data, 'utf-8');
 
-  console.log(`🐬 Backup saved as: ./${filename}`);
+  console.log(`🐬 Backup saved at: ./${filename}`);
 }

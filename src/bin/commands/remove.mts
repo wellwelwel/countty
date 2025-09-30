@@ -5,6 +5,7 @@ export async function remove(
   COUNTTY_URL: string,
   COUNTTY_TOKEN: string
 ) {
+  const url = `${COUNTTY_URL}/views?slug=${encodeURIComponent(slug)}`;
   const { data } = await request(`${COUNTTY_URL}/remove`, {
     method: 'POST',
     headers: {
@@ -14,4 +15,5 @@ export async function remove(
   });
 
   console.log(JSON.parse(data));
+  console.log(`🔗 Removed URL: \x1b[94m\x1b[1m${url}\x1b[0m`);
 }

@@ -37,7 +37,7 @@ npx -y countty@latest init
 
 ### ⛅️ Countty Standalone
 
-To use **Countty** as a self-contained **Worker**, modify the `worker.ts` file to:
+To use **Countty** as a self-contained **Worker**, modify the `worker.ts` file content to:
 
 ```ts
 import { createCountty } from 'countty';
