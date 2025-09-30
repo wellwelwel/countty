@@ -17,6 +17,7 @@ export const createCountty: (options?: CounttyOptions) => {
     create: RouteFunction;
     views: RouteFunction;
     remove: RouteFunction;
+    reset: RouteFunction;
   };
 } = (options) => {
   const stubName = (options || Object.create(null)).table || 'countty';
@@ -62,17 +63,17 @@ export const createCountty: (options?: CounttyOptions) => {
             return new Response(null, { status: 204, headers });
 
           /** Routes */
-          if (url.pathname.startsWith('/delete')) {
-            return remove(routeContext);
-          }
-
           switch (url.pathname) {
-            case '/views':
-              return views(routeContext);
             case '/create':
               return create(routeContext);
+            case '/views':
+              return views(routeContext);
+            case '/remove':
+              return remove(routeContext);
             case '/backup':
               return backup(routeContext);
+            case '/reset':
+              return reset(routeContext);
             default:
               return response({
                 response: { message: 'Not found.' },
