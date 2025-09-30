@@ -34,17 +34,17 @@ Countty CLI - Available commands:
   npx countty reset             - Reset all counters
   npx countty backup            - Backup data to ./backups/ directory
   npx countty views <slug>      - View counter statistics (public)
-  npx countty help              - Show this help message
 
 Options:
+  --help                        - Show this help message
   --env <path>                  - Specify custom .env file path
 
 Examples:
   npx countty init
-  npx countty create "my-blog-site-a"
-  npx countty remove "my-blog-site-a"
-  npx countty views "my-blog-site-a"
-  npx countty --env ./config/.env create "my-blog-site-a"
+  npx countty create "my-blog:post-a"
+  npx countty remove "my-blog:post-a"
+  npx countty views "my-blog:post-a"
+  npx countty --env ./config/.env create "my-blog:post-a"
 
 Environment Variables:
   COUNTTY_TOKEN                 - Required for create, remove, reset and backup commands
