@@ -2,11 +2,9 @@ import type { RouteContext } from '../../@types.js';
 import { checkToken, getApi } from '../../helpers/auth.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
-import { resolveStub } from '../../helpers/stub.js';
 
 export const create = async (context: RouteContext): Promise<Response> => {
-  const { request, env, Countty } = context;
-  const counttyStub = resolveStub(Countty, env);
+  const { request, env, stub } = context;
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });
@@ -33,10 +31,10 @@ export const create = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  if (await counttyStub.exists(slug))
+  if (await stub.exists(slug))
     return response({ response: { message: 'Slug already exists.' } });
 
-  await counttyStub.create(slug);
+  await stub.create(slug);
 
   return response({ response: { message: 'Slug created successfully.' } });
 };

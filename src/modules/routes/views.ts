@@ -2,11 +2,9 @@ import type { RouteContext } from '../../@types.js';
 import { formatNumber } from '../../helpers/format.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
-import { resolveStub } from '../../helpers/stub.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
-  const { request, Countty, env } = context;
-  const counttyStub = resolveStub(Countty, env);
+  const { request, stub } = context;
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
@@ -31,7 +29,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  const views = await counttyStub.increment(slug);
+  const views = await stub.increment(slug);
   const label = formatNumber(views);
 
   return response({ response: { views, label } });

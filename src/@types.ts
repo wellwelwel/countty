@@ -2,30 +2,33 @@ import type { createDurableObject } from './modules/counter.js';
 
 type Countty = InstanceType<ReturnType<typeof createDurableObject>>;
 
+type CounttyRoutes = () => Promise<Response>;
+
+type Router = {
+  create: CounttyRoutes;
+  views: CounttyRoutes;
+  remove: CounttyRoutes;
+  backup: CounttyRoutes;
+  reset: CounttyRoutes;
+};
+
+type CounttyRateLimit = {
+  available: boolean;
+  remaining: number;
+  resetAt?: number;
+};
+
 export type Env = {
   countty: DurableObjectNamespace<Countty>;
   COUNTTY_TOKEN?: string;
 };
 
-export type CounttyStub = DurableObjectStub<Countty>;
-
-export type CounttyClass = ReturnType<typeof createDurableObject>;
-
 export type RouteContext = {
   request: Request;
   env: Env;
-  Countty: DurableObjectStub<Countty> | ReturnType<typeof createDurableObject>;
+  stub: DurableObjectStub<Countty>;
   headers?: Record<string, string>;
 };
-
-export type UserRouteContext = {
-  request: Request;
-  Countty: ReturnType<typeof createDurableObject>;
-  env: Env;
-  headers?: Record<string, string>;
-};
-
-export type RouteFunction = (context: RouteContext) => Promise<Response>;
 
 export type RateLimitData = {
   count: number;
@@ -46,5 +49,17 @@ export type CounttyOptions = {
     maxRequests?: number;
     windowMs?: number;
     blockDurationMs?: number;
+  };
+};
+
+export type CounttyReturn = {
+  Worker: ExportedHandler<Env>;
+  Countty: ReturnType<typeof createDurableObject>;
+  createContext: (
+    request: Request,
+    env: Env
+  ) => {
+    router: Router;
+    rateLimit: CounttyRateLimit;
   };
 };

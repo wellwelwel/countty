@@ -1,9 +1,8 @@
 import type {
   CounttyOptions,
+  CounttyReturn,
   Env,
   RateLimitConfig,
-  RouteContext,
-  RouteFunction,
 } from '../@types.js';
 import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
@@ -14,23 +13,11 @@ import { remove } from './routes/remove.js';
 import { reset } from './routes/reset.js';
 import { views } from './routes/views.js';
 
-export const createCountty: (options?: CounttyOptions) => {
-  Worker: ExportedHandler<Env>;
-  Countty: ReturnType<typeof createDurableObject>;
-  routes: {
-    backup: RouteFunction;
-    create: RouteFunction;
-    views: RouteFunction;
-    remove: RouteFunction;
-    reset: RouteFunction;
-  };
-  rateLimiter: (request: Request) => {
-    available: boolean;
-    remaining: number;
-    resetAt?: number;
-  };
-} = (options) => {
+export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
+  options
+) => {
   const stubName = (options || Object.create(null)).table || 'countty';
+
   const rateLimitOptions: CounttyOptions['rateLimit'] =
     options?.rateLimit || Object.create(null);
 
@@ -40,85 +27,92 @@ export const createCountty: (options?: CounttyOptions) => {
     blockDurationMs: rateLimitOptions?.blockDurationMs || 10000,
   };
 
+  const Countty = createDurableObject(stubName);
+
   const rateLimiter = createRateLimiter(rateLimitConfig);
 
-  return {
-    Worker: {
-      async fetch(request: Request, env: Env): Promise<Response> {
-        const rateLimit = rateLimiter(request);
+  const createContext = (request: Request, env: Env) => {
+    const id = env.countty.idFromName(stubName);
+    const stub = env.countty.get(id);
+    const context = { request, env, stub };
 
-        const headers = Object.freeze({
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-          'Access-Control-Max-Age': '1800',
-          'Content-Type': 'application/json; charset=utf-8',
-          'X-RateLimit-Limit': String(rateLimitConfig.maxRequests),
-          'X-RateLimit-Remaining': String(rateLimit.remaining),
-          'X-Content-Type-Options': 'nosniff',
-          'X-Frame-Options': 'DENY',
+    return {
+      rateLimit: rateLimiter(request),
+      router: {
+        backup: () => backup(context),
+        create: () => create(context),
+        views: () => views(context),
+        remove: () => remove(context),
+        reset: () => reset(context),
+      },
+    };
+  };
+
+  const Worker: ExportedHandler<Env> = {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      const { router, rateLimit } = createContext(request, env);
+      const { backup, create, remove, reset, views } = router;
+
+      const headers = Object.freeze({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Max-Age': '1800',
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-RateLimit-Limit': String(rateLimitConfig.maxRequests),
+        'X-RateLimit-Remaining': String(rateLimit.remaining),
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+      });
+
+      if (!rateLimit.available)
+        return response({
+          response: {
+            message: 'Request limit exceeded. Please try again later.',
+          },
+          status: 429,
+          headers,
         });
 
-        if (!rateLimit.available)
-          return response({
-            response: {
-              message: 'Request limit exceeded. Please try again later.',
-            },
-            status: 429,
-            headers,
-          });
+      try {
+        const url = new URL(request.url);
 
-        try {
-          const url = new URL(request.url);
-          const id = env.countty.idFromName(stubName);
-          const stub = env.countty.get(id);
-          const routeContext: RouteContext = {
-            request,
-            env,
-            Countty: stub,
-            headers,
-          };
+        if (request.method === 'OPTIONS')
+          return new Response(null, { status: 204, headers });
 
-          if (request.method === 'OPTIONS')
-            return new Response(null, { status: 204, headers });
-
-          /** Routes */
-          switch (url.pathname) {
-            case '/create':
-              return create(routeContext);
-            case '/views':
-              return views(routeContext);
-            case '/remove':
-              return remove(routeContext);
-            case '/backup':
-              return backup(routeContext);
-            case '/reset':
-              return reset(routeContext);
-            default:
-              return response({
-                response: { message: 'Not found.' },
-                status: 404,
-                headers,
-              });
-          }
-        } catch (error) {
-          console.error(error);
-
-          return response({
-            response: { message: 'Oops! Internal error.' },
-            status: 500,
-          });
+        /** Routes */
+        switch (url.pathname) {
+          case '/create':
+            return create();
+          case '/views':
+            return views();
+          case '/remove':
+            return remove();
+          case '/backup':
+            return backup();
+          case '/reset':
+            return reset();
+          default:
+            return response({
+              response: { message: 'Not found.' },
+              status: 404,
+              headers,
+            });
         }
-      },
+      } catch (error) {
+        console.error(error);
+
+        return response({
+          response: { message: 'Oops! Internal error.' },
+          status: 500,
+        });
+      }
     },
-    Countty: createDurableObject(stubName),
-    routes: {
-      backup,
-      create,
-      remove,
-      views,
-      reset,
-    },
-    rateLimiter,
+  };
+
+  return {
+    Worker,
+    Countty,
+    createContext,
   };
 };

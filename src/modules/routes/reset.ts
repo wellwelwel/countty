@@ -1,11 +1,9 @@
 import type { RouteContext } from '../../@types.js';
 import { checkToken, getApi } from '../../helpers/auth.js';
 import { response } from '../../helpers/response.js';
-import { resolveStub } from '../../helpers/stub.js';
 
 export const reset = async (context: RouteContext): Promise<Response> => {
-  const { request, env, Countty } = context;
-  const counttyStub = resolveStub(Countty, env);
+  const { request, env, stub } = context;
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });
@@ -15,7 +13,7 @@ export const reset = async (context: RouteContext): Promise<Response> => {
   if (!(await checkToken(env?.COUNTTY_TOKEN, api)))
     return response({ response: { message: 'Unauthorized.' }, status: 401 });
 
-  const reseted = await counttyStub.reset();
+  const reseted = await stub.reset();
 
   if (!reseted)
     return response({

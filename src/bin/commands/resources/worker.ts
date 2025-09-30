@@ -1,17 +1,8 @@
 export const worker = `/// <reference types="@cloudflare/workers-types" />
 
-import { createCountty, type Env } from 'countty';
+import { createCountty, type CounttyRoutes, type Env } from 'countty';
 
-type CounttyRoutes = Record<
-  string,
-  (ctx: {
-    request: Request;
-    env: Env;
-    Countty: typeof Countty;
-  }) => Promise<Response>
->;
-
-const { Countty, routes, rateLimiter } = createCountty();
+const { Countty, rateLimiter, routes } = createCountty();
 
 const Worker: ExportedHandler<Env> = {
   async fetch(request: Request, env: Env): Promise<Response> {
