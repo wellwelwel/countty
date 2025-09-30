@@ -8,13 +8,15 @@
 - Ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) and [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) ⛅️
 - No **VPS** or **Database** plans required 💳
 - No need to configure servers or databases ✨
-- **Countty** isn't a plugin, but a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
+- **Countty** can be used both as a Plug-in and a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
 
 ---
 
 ## 💻 Quickly try it out locally
 
-You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
+> [!TIP]
+>
+> You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
 
 ### 📦 Install
 
@@ -24,24 +26,23 @@ npm i countty
 
 ### ⛅️ Worker
 
-Create the files:
+To use **Countty** as a self-contained **Worker**, create the files:
 
-<details>
-<summary><b><code>index.js</code></b></summary>
+<b>index.js</code></b>
 
-```js
+```ts
 import { createCountty } from 'countty';
 
 const { Worker, Countty } = createCountty();
 
-// Worker Routes
+// Worker App
 export default Worker;
 
 // Durable Object (SQLite)
 export { Countty };
 ```
 
-</details>
+- See bellow how to use **Countty** as a plug-in 👋
 
 <details>
 <summary><b><code>wrangler.json</code></b></summary>
@@ -98,7 +99,7 @@ npm i -D wrangler
 
 ---
 
-### 🔗 API Routes
+### 🔗 Default API Routes
 
 > [!IMPORTANT]
 >
@@ -109,7 +110,7 @@ npm i -D wrangler
 - Creates a new counter for the specified slug.
 - Type: **private**.
 
-```js
+```ts
 fetch('http://localhost:8787/create', {
   method: 'POST',
   headers: {
@@ -127,7 +128,7 @@ fetch('http://localhost:8787/create', {
 - Returns `0` when the slug does not exist.
 - Type: **public**.
 
-```js
+```ts
 fetch('http://localhost:8787/views?slug=test')
   .then((res) => res.json())
   .then(console.log);
@@ -138,7 +139,7 @@ fetch('http://localhost:8787/views?slug=test')
 - Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.
 - Type: **private**.
 
-```js
+```ts
 fetch('/backup', {
   headers: {
     Authorization: 'Bearer 123456',
@@ -178,24 +179,6 @@ npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 
 ---
 
-## ✚ Countty Options
-
-You can change the table name by specifying the name when creating **Countty**:
-
-```js
-import { createCountty } from 'countty';
-
-const { Worker, Countty } = createCountty({ table: 'my-table' });
-
-// Worker Routes
-export default Worker;
-
-// Durable Object (SQLite)
-export { Countty };
-```
-
----
-
 ## ⚖️ Restrictions on the free plan:
 
 - **Workers:** https://developers.cloudflare.com/workers/platform/pricing/
@@ -205,4 +188,67 @@ export { Countty };
 
 ## 🎓 Examples
 
-Soon.
+### ⛅️ Running Countty as a Plug-in
+
+> [!TIP]
+>
+> As a plug-in, you can also customize the routes.
+
+```ts
+/// <reference types="@cloudflare/workers-types" />
+
+import type { Env } from 'countty';
+import { createCountty } from 'countty';
+
+const { Countty, routes } = createCountty();
+
+// Durable Object (SQLite)
+export { Countty };
+
+const Worker: ExportedHandler<Env> = {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    const context = { request, env, Countty };
+
+    switch (url.pathname) {
+      // Your routes...
+
+      // Personalize your Countty routes
+      case '/views':
+        return routes.views(context);
+      case '/create':
+        return routes.create(context);
+      case '/backup':
+        return routes.backup(context);
+    }
+
+    return new Response('Not found', { status: 404 });
+  },
+};
+
+export default Worker;
+```
+
+---
+
+### ✚ Countty Options
+
+You can change the table name by specifying the name when creating **Countty**:
+
+```ts
+import type { CounttyOptions } from 'countty';
+import { createCountty } from 'countty';
+
+const options: CounttyOptions = {
+  // Changes the table name in the SQLite Durable Object.
+  table: 'my-table',
+};
+
+const { Worker, Countty } = createCountty(options);
+
+// Worker App
+export default Worker;
+
+// Durable Object (SQLite)
+export { Countty };
+```
