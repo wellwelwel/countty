@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "./lib/index.js",
   "bin": {
-    "countty": "./lib/bin/index.mjs"
+    "countty": "lib/bin/index.mjs"
   },
   "type": "module",
   "license": "AGPL-3.0-only",
