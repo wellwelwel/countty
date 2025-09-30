@@ -1,10 +1,12 @@
-import type { RouteContext } from '../worker.js';
+import type { RouteContext } from 'src/@types.js';
 import { checkToken, getApi } from '../../helpers/auth.js';
 import { response } from '../../helpers/response.js';
+import { resolveStub } from '../../helpers/stub.js';
 
 export const backup = async (context: RouteContext): Promise<Response> => {
   const { request, env, Countty, headers } = context;
-  const { filename, dump } = await Countty.backup();
+  const counttyStub = resolveStub(Countty, env);
+  const { filename, dump } = await counttyStub.backup();
   const api = getApi(request);
 
   if (!(await checkToken(env?.TOKEN, api)))

@@ -1,24 +1,22 @@
-import type { Env } from '../@types.js';
-import type { Countty } from './counter.js';
+import type {
+  CounttyOptions,
+  Env,
+  RouteContext,
+  RouteFunction,
+} from '../@types.js';
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
 import { backup, create, views } from './routes.js';
 
-export type RouteContext = {
-  request: Request;
-  env?: Env;
-  Countty: DurableObjectStub<Countty>;
-  headers?: Record<string, string>;
-};
-
-export type Options = {
-  table?: string;
-};
-
-export const createCountty: (options?: Options) => {
+export const createCountty: (options?: CounttyOptions) => {
   Worker: ExportedHandler<Env>;
   Countty: ReturnType<typeof createDurableObject>;
+  routes: {
+    backup: RouteFunction;
+    create: RouteFunction;
+    views: RouteFunction;
+  };
 } = (options) => {
   const stubName = (options || Object.create(null)).table || 'countty';
 
@@ -88,5 +86,10 @@ export const createCountty: (options?: Options) => {
       },
     },
     Countty: createDurableObject(stubName),
+    routes: {
+      backup,
+      create,
+      views,
+    },
   };
 };

@@ -1,8 +1,6 @@
 import type { Env } from '../@types.js';
 import { DurableObject } from 'cloudflare:workers';
 
-export type Countty = InstanceType<ReturnType<typeof createDurableObject>>;
-
 export const createDurableObject = (stubName: string) =>
   class Countty extends DurableObject<Env> {
     ctx: DurableObjectState<{}>;

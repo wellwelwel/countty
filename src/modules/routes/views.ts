@@ -1,9 +1,11 @@
-import type { RouteContext } from '../worker.js';
+import type { RouteContext } from 'src/@types.js';
 import { normalizeChars } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
+import { resolveStub } from '../../helpers/stub.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
-  const { request, Countty } = context;
+  const { request, Countty, env } = context;
+  const counttyStub = resolveStub(Countty, env);
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
@@ -28,7 +30,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  const views = await Countty.increment(slug);
+  const views = await counttyStub.increment(slug);
 
   return response({ response: { views } });
 };
