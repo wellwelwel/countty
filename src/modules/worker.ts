@@ -7,7 +7,11 @@ import type {
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
-import { backup, create, remove, reset, views } from './routes.js';
+import { backup } from './routes/backup.js';
+import { create } from './routes/create.js';
+import { remove } from './routes/remove.js';
+import { reset } from './routes/reset.js';
+import { views } from './routes/views.js';
 
 export const createCountty: (options?: CounttyOptions) => {
   Worker: ExportedHandler<Env>;

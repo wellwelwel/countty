@@ -1,7 +1,11 @@
 #!/usr/bin/env node
-import { mkdir, writeFile } from 'node:fs/promises';
 import { argv, cwd, env, exit, loadEnvFile } from 'node:process';
-import { help, request } from '../helpers/cli.js';
+import { help } from '../helpers/cli.js';
+import { backup } from './commands/backup.mjs';
+import { create } from './commands/create.mjs';
+import { remove } from './commands/remove.mjs';
+import { reset } from './commands/reset.mjs';
+import { views } from './commands/views.mjs';
 
 const { args, envPath } = (() => {
   const processedArgs = argv.slice(2);
@@ -25,18 +29,17 @@ const { args, envPath } = (() => {
 
 loadEnvFile(envPath);
 
-const command = args[0];
-const slug: string | undefined = args[1];
-const privateCommands = ['create', 'remove', 'reset', 'backup'];
-const { COUNTTY_URL, COUNTTY_TOKEN } = env || Object.create(null);
-
 if (args.length === 0 || ['help', '--help', '-h'].includes(args[0])) {
   help();
   exit(0);
 }
 
+const command = args[0].trim();
+const slug: string | undefined = args[1];
+const { COUNTTY_URL, COUNTTY_TOKEN } = env || Object.create(null);
+
 if (!COUNTTY_URL) {
-  console.error('❌ COUNTTY_URL not found in environment variables');
+  console.error('❌ COUNTTY_URL not found in environment variables.');
   console.error(
     'Set the COUNTTY_URL environment variable to use your Countty CLI helper.'
   );
@@ -44,10 +47,10 @@ if (!COUNTTY_URL) {
   exit(1);
 }
 
-if (privateCommands.includes(command) && !COUNTTY_TOKEN) {
-  console.error('❌ COUNTTY_TOKEN not found in environment variables');
+if (!COUNTTY_TOKEN) {
+  console.error('❌ COUNTTY_TOKEN not found in environment variables.');
   console.error(
-    'Set the COUNTTY_TOKEN environment variable to use private routes.'
+    'Set the COUNTTY_TOKEN environment variable to use your Countty CLI helper.'
   );
 
   exit(1);
@@ -55,72 +58,27 @@ if (privateCommands.includes(command) && !COUNTTY_TOKEN) {
 
 switch (command) {
   case 'create':
-    const { data: create } = await request(`${COUNTTY_URL}/create`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${COUNTTY_TOKEN}`,
-      },
-      body: JSON.stringify({ slug }),
-    });
-
-    console.log(JSON.parse(create));
-
+    await create(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'remove':
-    const { data: remove } = await request(`${COUNTTY_URL}/remove`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${COUNTTY_TOKEN}`,
-      },
-      body: JSON.stringify({ slug }),
-    });
-
-    console.log(JSON.parse(remove));
-
+    await remove(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'reset':
-    const { data: reset } = await request(`${COUNTTY_URL}/reset`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${COUNTTY_TOKEN}`,
-      },
-    });
-
-    console.log(JSON.parse(reset));
-
+    await reset(COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'backup':
-    const { data: backup } = await request(`${COUNTTY_URL}/backup`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${COUNTTY_TOKEN}`,
-      },
-    });
-
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupsDir = 'backups';
-    const filename = `${backupsDir}/countty-backup-${timestamp}.sql`;
-
-    await mkdir(backupsDir, { recursive: true });
-    await writeFile(filename, backup, 'utf-8');
-    console.log(`🐬 Backup saved as: ./${filename}`);
-
+    await backup(COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'views':
-    const url = `${COUNTTY_URL}/views?slug=${encodeURIComponent(slug)}`;
-    const viewsResponse = await request(url, { method: 'GET' });
-
-    console.log(`🔗 ${url}`);
-    console.log(JSON.parse(viewsResponse.data).views);
-
+    await views(slug, COUNTTY_URL);
     break;
 
   default:
-    console.error(`❌ Command "${command}" not recognized`);
+    console.error(`❌ Command "${command}" not recognized.`);
     help();
     exit(1);
 }
