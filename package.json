@@ -1,7 +1,7 @@
 {
   "name": "countty",
   "description": "✚ Easily persist your own autonomous Page View Counter for free (no VPS or database plans required).",
-  "version": "0.1.37",
+  "version": "0.1.38",
   "main": "./lib/index.js",
   "bin": {
     "countty": "./lib/bin/index.mjs"
@@ -23,6 +23,7 @@
   "scripts": {
     "start": "wrangler dev",
     "build": "tsc",
+    "postbuild": "chmod +x ./lib/bin/index.mjs",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "npm:patch": "npm version patch --no-git-tag-version",

@@ -89,6 +89,7 @@ export const createDurableObject = (stubName: string) =>
 
       try {
         const results = this.sql.exec(sql).toArray();
+
         return results.map((row) => ({
           slug: String(row.slug),
           views: Number(row.views),

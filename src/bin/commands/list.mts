@@ -8,5 +8,11 @@ export const list = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
     },
   });
 
-  console.dir(JSON.parse(data), { depth: Infinity });
+  const content = JSON.parse(data);
+
+  console.log();
+  console.log('Total:', content.total);
+  console.log();
+  console.table(content.slugs);
+  console.log();
 };
