@@ -233,32 +233,48 @@ npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 import type { Env } from 'countty';
 import { createCountty } from 'countty';
 
+type Routes = Record<
+  string,
+  (ctx: {
+    request: Request;
+    env: Env;
+    Countty: typeof Countty;
+  }) => Promise<Response>
+>;
+
 const { Countty, routes } = createCountty();
+
+const Worker: ExportedHandler<Env> = {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    // Your logic...
+
+    const url = new URL(request.url);
+    const context = { request, env, Countty };
+    const { pathname } = url;
+
+    const notFound = new Response(JSON.stringify({ message: 'Not found.' }), {
+      status: 404,
+    });
+
+    const routeHandlers: Routes = {
+      // Your routes...
+
+      // Personalize your Countty routes:
+      '/create': routes.create,
+      '/views': routes.views,
+      '/remove': routes.remove,
+      '/backup': routes.backup,
+      '/reset': routes.reset,
+    };
+
+    return routeHandlers[pathname](context) || notFound;
+  },
+};
 
 // Durable Object (SQLite)
 export { Countty };
 
-const Worker: ExportedHandler<Env> = {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
-    const context = { request, env, Countty };
-
-    switch (url.pathname) {
-      // Your routes...
-
-      // Personalize your Countty routes:
-      case '/views':
-        return routes.views(context);
-      case '/create':
-        return routes.create(context);
-      case '/backup':
-        return routes.backup(context);
-    }
-
-    return new Response('Not found', { status: 404 });
-  },
-};
-
+// Your Worker App
 export default Worker;
 ```
 
