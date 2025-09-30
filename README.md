@@ -9,6 +9,7 @@
 - No hosting, domains, **VPS** or database plans required 💸
 - No need to configure servers or databases ✨
 - **Countty** can be used both as a plug-in and a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
+- **CLI** helper to simplify the creation, backup, and maintenance of your counter 🛠️
 
 ---
 
