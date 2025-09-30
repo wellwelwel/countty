@@ -16,7 +16,7 @@ export const createDurableObject = (stubName: string) =>
       this.stubName = stubName.trim();
       this.sql = ctx.storage.sql;
       this.sql.exec(
-        `CREATE TABLE IF NOT EXISTS \`${this.stubName}\`(\`id\` INTEGER PRIMARY KEY, \`slug\` VARCHAR(64) UNIQUE NOT NULL, \`views\` INTEGER DEFAULT 0);`
+        `CREATE TABLE IF NOT EXISTS \`${this.stubName}\`(\`id\` INTEGER PRIMARY KEY, \`slug\` VARCHAR(255) UNIQUE NOT NULL, \`views\` INTEGER DEFAULT 0);`
       );
     }
 

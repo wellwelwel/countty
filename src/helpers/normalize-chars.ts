@@ -1,5 +1,2 @@
-export const normalizeSlug = (text: string): string =>
-  text
-    .normalize('NFD')
-    .trim()
-    .replace(/[^a-z0-9-]/g, '');
+export const normalizeSlug = (slug: string): string =>
+  encodeURIComponent(slug.trim().substring(0, 255).trim());
