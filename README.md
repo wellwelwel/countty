@@ -6,9 +6,9 @@
 ---
 
 - Ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) and [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) ⛅️
-- No **VPS** or **Database** plans required 💳
+- No hosting, domains, **VPS** or database plans required 💸
 - No need to configure servers or databases ✨
-- **Countty** can be used both as a Plug-in and a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
+- **Countty** can be used both as a plug-in and a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
 
 ---
 
