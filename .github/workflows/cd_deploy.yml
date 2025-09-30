@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  id-token: write
 
 jobs:
   deploy:
@@ -34,13 +36,13 @@ jobs:
       - name: Installing Dependencies
         run: npm ci
 
-      - name: Building Site
+      - name: Testing
         run: npm test
 
-      - name: Building Site
+      - name: Building
         run: npm run build
 
-      - name: 🤝 Release Please
+      - name: 🤝 Releasing
         if: ${{ github.event.repository.fork == false }}
         uses: google-github-actions/release-please-action@v3
         id: release
