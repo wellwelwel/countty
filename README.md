@@ -17,11 +17,11 @@
 
 ---
 
-## 📦 Create and Install
+## 📦 Install
 
 To automatically create all necessary files and install the dependencies, run in an empty directory:
 
-### ⛅️ Standalone
+### ⛅️ Standalone (Default)
 
 ```sh
 npx -y countty@latest init
