@@ -134,6 +134,23 @@ fetch('http://localhost:8787/views?slug=test')
   .then(console.log);
 ```
 
+#### `/remove`
+
+- Removes the specified slug.
+- Type: **private**.
+
+```ts
+fetch('http://localhost:8787/remove', {
+  method: 'POST',
+  headers: {
+    Authorization: 'Bearer 123456',
+  },
+  body: JSON.stringify({ slug: 'test' }),
+})
+  .then((res) => res.json())
+  .then(console.log);
+```
+
 #### `/backup`
 
 - Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.

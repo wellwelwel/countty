@@ -7,7 +7,7 @@ import type {
 import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
-import { backup, create, views } from './routes.js';
+import { backup, create, remove, views } from './routes.js';
 
 export const createCountty: (options?: CounttyOptions) => {
   Worker: ExportedHandler<Env>;
@@ -16,6 +16,7 @@ export const createCountty: (options?: CounttyOptions) => {
     backup: RouteFunction;
     create: RouteFunction;
     views: RouteFunction;
+    remove: RouteFunction;
   };
 } = (options) => {
   const stubName = (options || Object.create(null)).table || 'countty';
@@ -61,6 +62,10 @@ export const createCountty: (options?: CounttyOptions) => {
             return new Response(null, { status: 204, headers });
 
           /** Routes */
+          if (url.pathname.startsWith('/delete')) {
+            return remove(routeContext);
+          }
+
           switch (url.pathname) {
             case '/views':
               return views(routeContext);
@@ -89,6 +94,7 @@ export const createCountty: (options?: CounttyOptions) => {
     routes: {
       backup,
       create,
+      remove,
       views,
     },
   };

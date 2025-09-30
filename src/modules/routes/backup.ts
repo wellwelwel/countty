@@ -1,4 +1,4 @@
-import type { RouteContext } from 'src/@types.js';
+import type { RouteContext } from '../../@types.js';
 import { checkToken, getApi } from '../../helpers/auth.js';
 import { response } from '../../helpers/response.js';
 import { resolveStub } from '../../helpers/stub.js';

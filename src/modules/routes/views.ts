@@ -1,5 +1,5 @@
-import type { RouteContext } from 'src/@types.js';
-import { normalizeChars } from '../../helpers/normalize-chars.js';
+import type { RouteContext } from '../../@types.js';
+import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 import { resolveStub } from '../../helpers/stub.js';
 
@@ -23,7 +23,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  const slug = normalizeChars(slugRaw);
+  const slug = normalizeSlug(slugRaw);
   if (slug.length === 0)
     return response({
       response: { message: 'Slug parameter is required [2].' },

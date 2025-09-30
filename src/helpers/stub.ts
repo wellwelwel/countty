@@ -1,4 +1,4 @@
-import { CounttyClass, CounttyStub, Env } from 'src/@types.js';
+import { CounttyClass, CounttyStub, Env } from '../@types.js';
 
 export const resolveStub = (
   Countty: CounttyStub | CounttyClass,

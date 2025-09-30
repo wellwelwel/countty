@@ -62,6 +62,17 @@ export const createDurableObject = (stubName: string) =>
       this.sql.exec(sql, slug, views);
     }
 
+    async delete(slug: string): Promise<boolean> {
+      const sql = `DELETE FROM \`${this.stubName}\` WHERE \`slug\` = ?`;
+
+      try {
+        this.sql.exec(sql, slug);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     async backup(): Promise<{
       filename: string;
       dump: Uint8Array;

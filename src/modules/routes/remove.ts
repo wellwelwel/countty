@@ -4,7 +4,7 @@ import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 import { resolveStub } from '../../helpers/stub.js';
 
-export const create = async (context: RouteContext): Promise<Response> => {
+export const remove = async (context: RouteContext): Promise<Response> => {
   const { request, env, Countty } = context;
   const counttyStub = resolveStub(Countty, env);
 
@@ -33,10 +33,16 @@ export const create = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  if (await counttyStub.exists(slug))
-    return response({ response: { message: 'Slug already exists.' } });
+  const deleted = await counttyStub.delete(slug);
 
-  await counttyStub.create(slug);
+  if (!deleted)
+    return response({
+      response: { message: `Slug '${slug}' not found.` },
+      status: 404,
+    });
 
-  return response({ response: { message: 'Slug created successfully.' } });
+  return response({
+    response: { message: `Slug '${slug}' deleted successfully.` },
+    status: 200,
+  });
 };
