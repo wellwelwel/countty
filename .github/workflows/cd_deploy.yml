@@ -39,3 +39,19 @@ jobs:
 
       - name: Building Site
         run: npm run build
+
+      - name: 🤝 Release Please
+        if: ${{ github.event.repository.fork == false }}
+        uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node
+          package-name: countty
+          changelog-path: 'CHANGELOG.md'
+
+      - name: 📥 Publishing Package
+        if: ${{ steps.release.outputs.releases_created }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance
