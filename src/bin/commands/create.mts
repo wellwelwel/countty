@@ -1,10 +1,10 @@
 import { request } from '../../helpers/cli.js';
 
-export async function create(
+export const create = async (
   slug: string,
   COUNTTY_URL: string,
   COUNTTY_TOKEN: string
-) {
+) => {
   const url = `${COUNTTY_URL}/views?slug=${encodeURIComponent(slug)}`;
   const { data } = await request(`${COUNTTY_URL}/create`, {
     method: 'POST',
@@ -23,4 +23,4 @@ export async function create(
   console.log(
     '💡 \x1b[1mNote:\x1b[0m Naturally, local addresses do not work for badges.'
   );
-}
+};

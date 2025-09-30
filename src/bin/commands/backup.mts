@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { request } from '../../helpers/cli.js';
 
-export async function backup(COUNTTY_URL: string, COUNTTY_TOKEN: string) {
+export const backup = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
   const { data } = await request(`${COUNTTY_URL}/backup`, {
     method: 'GET',
     headers: {
@@ -17,4 +17,4 @@ export async function backup(COUNTTY_URL: string, COUNTTY_TOKEN: string) {
   await writeFile(filename, data, 'utf-8');
 
   console.log(`🐬 Backup saved at: ./${filename}`);
-}
+};

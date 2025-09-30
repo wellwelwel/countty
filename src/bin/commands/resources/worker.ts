@@ -13,6 +13,7 @@ const Worker: ExportedHandler<Env> = {
       '/views': router.views,
       '/remove': router.remove,
       '/backup': router.backup,
+      '/list': router.list,
       '/reset': router.reset,
     };
 

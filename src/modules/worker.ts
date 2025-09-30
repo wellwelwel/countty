@@ -9,6 +9,7 @@ import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
 import { backup } from './routes/backup.js';
 import { create } from './routes/create.js';
+import { list } from './routes/list.js';
 import { remove } from './routes/remove.js';
 import { reset } from './routes/reset.js';
 import { views } from './routes/views.js';
@@ -41,6 +42,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
       router: {
         backup: () => backup(context),
         create: () => create(context),
+        list: () => list(context),
         views: () => views(context),
         remove: () => remove(context),
         reset: () => reset(context),
@@ -51,7 +53,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
       const { router, rateLimit } = createContext(request, env);
-      const { backup, create, remove, reset, views } = router;
+      const { backup, create, remove, reset, list, views } = router;
 
       const headers = Object.freeze({
         'Access-Control-Allow-Origin': '*',
@@ -90,6 +92,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
             return remove();
           case '/backup':
             return backup();
+          case '/list':
+            return list();
           case '/reset':
             return reset();
           default:

@@ -96,6 +96,15 @@ npm run backup
 - Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.
 - Type: **private**.
 
+#### `/list`
+
+```sh
+npm run list
+```
+
+- Returns the number of slugs and list all **Countty** slugs.
+- Type: **private**.
+
 #### `/reset`
 
 ```sh
@@ -150,6 +159,7 @@ npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
 - `npx countty views <slug>`: View counter statistics.
 - `npx countty remove <slug>`: Remove permanently an existing counter.
 - `npx countty backup`: Backup the Countty Durable Object to `./backups/` directory.
+- `npx countty list`: Return the number of slugs and list all **Countty** slugs.
 - `npx countty reset`: Reset all counters permanently.
 
 ### Options

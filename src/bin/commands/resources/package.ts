@@ -20,6 +20,7 @@ export const packageJSON = async () => {
     "views": "countty views",
     "remove": "countty remove",
     "backup": "countty backup",
+    "list": "countty list",
     "reset": "countty reset"
   },
   "dependencies": {

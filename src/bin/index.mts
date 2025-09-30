@@ -5,6 +5,7 @@ import { help } from '../helpers/cli.js';
 import { backup } from './commands/backup.mjs';
 import { create } from './commands/create.mjs';
 import { init } from './commands/init.mjs';
+import { list } from './commands/list.mjs';
 import { remove } from './commands/remove.mjs';
 import { reset } from './commands/reset.mjs';
 import { views } from './commands/views.mjs';
@@ -74,20 +75,24 @@ switch (command) {
     await create(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
-  case 'remove':
-    await remove(slug, COUNTTY_URL, COUNTTY_TOKEN);
+  case 'views':
+    await views(slug, COUNTTY_URL);
     break;
 
-  case 'reset':
-    await reset(COUNTTY_URL, COUNTTY_TOKEN);
+  case 'remove':
+    await remove(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'backup':
     await backup(COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
-  case 'views':
-    await views(slug, COUNTTY_URL);
+  case 'list':
+    await list(COUNTTY_URL, COUNTTY_TOKEN);
+    break;
+
+  case 'reset':
+    await reset(COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   default:

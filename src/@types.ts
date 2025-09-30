@@ -9,6 +9,7 @@ type Router = {
   views: CounttyRoutes;
   remove: CounttyRoutes;
   backup: CounttyRoutes;
+  list: CounttyRoutes;
   reset: CounttyRoutes;
 };
 

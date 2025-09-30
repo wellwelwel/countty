@@ -84,6 +84,20 @@ export const createDurableObject = (stubName: string) =>
       }
     }
 
+    async list(): Promise<Array<{ slug: string; views: number }>> {
+      const sql = `SELECT \`slug\`, \`views\` FROM \`${this.stubName}\` ORDER BY \`views\` DESC, \`slug\` ASC`;
+
+      try {
+        const results = this.sql.exec(sql).toArray();
+        return results.map((row) => ({
+          slug: String(row.slug),
+          views: Number(row.views),
+        }));
+      } catch {
+        return [];
+      }
+    }
+
     async backup(): Promise<{
       filename: string;
       dump: Uint8Array;
