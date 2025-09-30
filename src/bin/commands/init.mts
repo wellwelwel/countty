@@ -6,7 +6,7 @@ import { env } from './resources/env.js';
 import { footnote } from './resources/footnote.js';
 import { gitignore } from './resources/gitignore.js';
 import { packageJSON } from './resources/package.js';
-import { worker } from './resources/worker.js';
+import { workerPlugin, workerStandalone } from './resources/worker.js';
 import { wrangler } from './resources/wrangler.js';
 
 const exists = async (path: string) => {
@@ -38,7 +38,7 @@ const npmInstall = async () => {
   });
 };
 
-export const init = async () => {
+export const init = async (mode: 'standalone' | 'plugin' = 'standalone') => {
   const currentDir = cwd();
   const path = {
     packageJSON: `${currentDir}/package.json`,
@@ -62,9 +62,15 @@ export const init = async () => {
     exit(0);
   }
 
+  const selectedWorker = mode === 'plugin' ? workerPlugin : workerStandalone;
+
+  console.log(`
+🔧 Initializing Countty project in \x1b[1m${mode}\x1b[0m mode...
+    `);
+
   await Promise.all([
     createResource(path.wrangler, wrangler),
-    createResource(path.worker, worker),
+    createResource(path.worker, selectedWorker),
     createResource(path.env, env),
     createResource(path.gitignore, gitignore),
     createResource(path.packageJSON, await packageJSON()),

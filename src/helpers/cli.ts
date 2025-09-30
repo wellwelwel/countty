@@ -28,12 +28,13 @@ export const help = () => {
   console.log(`
 Countty CLI - Available commands:
 
-  npx countty init              - Initialize a new Countty project
+  npx countty init              - Initialize a new Countty project (default: standalone mode)
+  npx countty init --plugin     - Initialize project in advanced mode
   npx countty create <slug>     - Create a new counter
-  npx countty remove <slug>     - Remove an existing counter
-  npx countty reset             - Reset all counters
-  npx countty backup            - Backup data to ./backups/ directory
   npx countty views <slug>      - View counter statistics (public)
+  npx countty remove <slug>     - Remove an existing counter
+  npx countty backup            - Backup data to ./backups/ directory
+  npx countty reset             - Reset all counters
 
 Options:
   --help                        - Show this help message
@@ -41,9 +42,11 @@ Options:
 
 Examples:
   npx countty init
+  npx countty init --plugin
   npx countty create "my-blog:post-a"
-  npx countty remove "my-blog:post-a"
   npx countty views "my-blog:post-a"
+  npx countty remove "my-blog:post-a"
+  npx countty --help
   npx countty --env ./config/.env create "my-blog:post-a"
 
 Environment Variables:

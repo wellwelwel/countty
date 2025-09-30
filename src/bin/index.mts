@@ -33,17 +33,16 @@ if (existsSync(envPath)) loadEnvFile(envPath);
 
 if (
   args.length === 0 ||
-  ['help', '--help', '-h'].includes(args[0].trim().toLowerCase())
+  ['--help', '-h'].includes(args[0].trim().toLowerCase())
 ) {
   help();
   exit(0);
 }
 
-if (
-  args.length === 0 ||
-  ['init', '--init'].includes(args[0].trim().toLowerCase())
-) {
-  await init();
+if (args[0].trim().toLowerCase() === 'init') {
+  const mode = args.includes('--plugin') ? 'plugin' : 'standalone';
+
+  await init(mode);
   exit(0);
 }
 
@@ -71,10 +70,6 @@ const command = args[0]?.trim().toLowerCase();
 const slug = args[1]?.trim();
 
 switch (command) {
-  case 'init':
-    await init();
-    break;
-
   case 'create':
     await create(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;

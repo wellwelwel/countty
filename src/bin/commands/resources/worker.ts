@@ -1,4 +1,4 @@
-export const worker = `/// <reference types="@cloudflare/workers-types" />
+export const workerPlugin = `/// <reference types="@cloudflare/workers-types" />
 
 import { createCountty, type Env } from 'countty';
 
@@ -43,4 +43,15 @@ export { Countty };
 
 // Worker App
 export default Worker;
+`;
+
+export const workerStandalone = `import { createCountty } from 'countty';
+
+const { Worker, Countty } = createCountty();
+
+// Worker App
+export default Worker;
+
+// Durable Object (SQLite)
+export { Countty };
 `;

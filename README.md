@@ -17,15 +17,25 @@
 
 ---
 
-## 📦 Create your App
+## 📦 Create and Install
 
-In an empty directory, run:
+To automatically create all necessary files and install the dependencies, run in an empty directory:
+
+### ⛅️ Standalone
 
 ```sh
 npx -y countty@latest init
 ```
 
-- This will automatically create all the necessary files and install the development dependencies 💫
+- **Easy:** Creates a self-contained Worker unique to **Countty**.
+
+### 🧩 Plug-in
+
+```sh
+npx -y countty@latest init --plugin
+```
+
+- **Advanced:** It exposes **Countty** routes, allowing integration with different routes, as well as customization of existing routes.
 
 > [!TIP]
 >
@@ -33,34 +43,7 @@ npx -y countty@latest init
 > - Change your **Worker** app name using the `name` property in `wrangler.jsonc`.
 >   - Default is `countty`.
 
-> [!IMPORTANT]
->
-> By default, the token is randomly generated with `100` characters and the URL is `"http://localhost:8787"`. You can change it in the `.env` file, for example:
->
-> ```sh
-> COUNTTY_URL='https://countty.<your-subdomain>.workers.dev'
-> COUNTTY_TOKEN='your-secret-token'
-> ```
-
 ---
-
-### ⛅️ Countty Standalone
-
-To use **Countty** as a self-contained **Worker**, modify the `worker.ts` file content to:
-
-```ts
-import { createCountty } from 'countty';
-
-const { Worker, Countty } = createCountty();
-
-// Worker App
-export default Worker;
-
-// Durable Object (SQLite)
-export { Countty };
-```
-
-</details>
 
 ### 🏁 Run
 
@@ -138,7 +121,7 @@ npm run deploy
 >
 > You can have an `.env` file for development and another for production.
 
-### 🔑 Personalize your Token
+### 🔑 Personalize your Tokens
 
 To safe use your token in production without uploading `.env` files, you can create a secret:
 
@@ -146,17 +129,22 @@ To safe use your token in production without uploading `.env` files, you can cre
 npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
 ```
 
+> [!IMPORTANT]
+>
+> By default, the token is randomly generated with `100` characters and the URL is `"http://localhost:8787"`. You can change it in the `.env` file, for example:
+>
+> ```sh
+> COUNTTY_URL='https://countty.<your-subdomain>.workers.dev'
+> COUNTTY_TOKEN='your-secret-token'
+> ```
+
 ---
 
 ## 🛠️ CLI Helper
 
 **Countty** includes a **CLI** helper to simplify the creation, backup, and maintenance of your counter directly from the terminal.
 
-> [!NOTE]
->
-> It's not possible to use custom routes with the **Counter CLI**.
-
-### 🧩 Available Commands
+### Available Commands
 
 - `npx countty create <slug>`: Create a new counter.
 - `npx countty views <slug>`: View counter statistics.
@@ -164,10 +152,14 @@ npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
 - `npx countty backup`: Backup the Countty Durable Object to `./backups/` directory.
 - `npx countty reset`: Reset all counters permanently.
 
-### 🕹️ Options
+### Options
 
 - `--help` - Show help message.
 - `--env <path>` - Specify a custom .env file path.
+
+> [!NOTE]
+>
+> It's not possible to use custom routes with the **Counter CLI**.
 
 > [!TIP]
 >
