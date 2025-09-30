@@ -166,6 +166,22 @@ fetch('/backup', {
   .then(console.log);
 ```
 
+#### `/reset`
+
+- **Danger:** reset the **Countty** **Durable Object**.
+- Type: **private**.
+
+```ts
+fetch('http://localhost:8787/reset', {
+  method: 'POST',
+  headers: {
+    Authorization: 'Bearer 123456',
+  },
+})
+  .then((res) => res.json())
+  .then(console.log);
+```
+
 > [!NOTE]
 >
 > Private routes ensure that other people cannot misuse your counter.
