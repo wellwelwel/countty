@@ -1,26 +1,26 @@
 export const worker = `/// <reference types="@cloudflare/workers-types" />
 
-import { createCountty, type CounttyRoutes, type Env } from 'countty';
+import { createCountty, type Env } from 'countty';
 
-const { Countty, rateLimiter, routes } = createCountty();
+const { Countty, createContext } = createCountty();
 
 const Worker: ExportedHandler<Env> = {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const context = { request, env, Countty };
-    const rateLimit = rateLimiter(request);
+    const { router, rateLimit } = createContext(request, env);
+
+    const customRoute: Record<string, () => Promise<Response>> = {
+      '/create': router.create,
+      '/views': router.views,
+      '/remove': router.remove,
+      '/backup': router.backup,
+      '/reset': router.reset,
+    };
+
     const url = new URL(request.url);
     const { pathname } = url;
 
-    const routeHandlers: CounttyRoutes = {
-      '/create': routes.create,
-      '/views': routes.views,
-      '/remove': routes.remove,
-      '/backup': routes.backup,
-      '/reset': routes.reset,
-    };
-
     // Countty Routes
-    if (pathname in routeHandlers) {
+    if (pathname in customRoute) {
       if (!rateLimit.available)
         return new Response(
           JSON.stringify({
@@ -29,7 +29,7 @@ const Worker: ExportedHandler<Env> = {
           { status: 429 }
         );
 
-      return routeHandlers[pathname](context);
+      return customRoute[pathname]();
     }
 
     return new Response(JSON.stringify({ message: 'Not found.' }), {
