@@ -186,6 +186,13 @@ import { createCountty } from 'countty';
 const options: CounttyOptions = {
   // Specifies the table name in the SQLite Durable Object.
   table: 'countty',
+
+  // Rate limiting configuration:
+  rateLimit: {
+    maxRequests: 30, // Maximum requests allowed in the time window.
+    windowMs: 10000, // Time window in milliseconds.
+    blockDurationMs: 10000, // Block duration when limit exceeded.
+  },
 };
 
 const { Worker, Countty } = createCountty(options);

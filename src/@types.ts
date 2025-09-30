@@ -27,6 +27,24 @@ export type UserRouteContext = {
 
 export type RouteFunction = (context: RouteContext) => Promise<Response>;
 
+export type RateLimitData = {
+  count: number;
+  timestamp: number;
+  blocked: boolean;
+  resetAt?: number;
+};
+
+export type RateLimitConfig = {
+  maxRequests: number;
+  windowMs: number;
+  blockDurationMs: number;
+};
+
 export type CounttyOptions = {
   table?: string;
+  rateLimit?: {
+    maxRequests?: number;
+    windowMs?: number;
+    blockDurationMs?: number;
+  };
 };

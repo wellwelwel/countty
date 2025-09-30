@@ -1,16 +1,5 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) https://awesomeyou.io and contributors. All rights reserved.
- *  Licensed under the GNU Affero General Public License v3.0. See https://github.com/wellwelwel/awesomeyou/blob/main/LICENSE for license information.
- *--------------------------------------------------------------------------------------------*/
-
+import type { RateLimitConfig } from '../@types.js';
 import { cache } from './cache.js';
-
-export type RateLimitData = {
-  count: number;
-  timestamp: number;
-  blocked: boolean;
-  resetAt?: number;
-};
 
 const getRateLimitKey = (request: Request): string => {
   const ip =
@@ -21,19 +10,18 @@ const getRateLimitKey = (request: Request): string => {
   return String(ip).slice(0, 19);
 };
 
-export const RATE_LIMIT = {
-  MAX_REQUESTS: 20,
-  WINDOW_MS: 10000,
-  BLOCK_DURATION_MS: 10000,
-};
-
 export const checkRateLimit = (
-  request: Request
+  request: Request,
+  config: RateLimitConfig
 ): {
   available: boolean;
   remaining: number;
   resetAt?: number;
 } => {
+  const maxRequests = config.maxRequests;
+  const windowMs = config.windowMs;
+  const blockDurationMs = config.blockDurationMs;
+
   const now = Date.now();
   const key = getRateLimitKey(request);
   const data = cache.rateLimit.get(key);
@@ -41,19 +29,19 @@ export const checkRateLimit = (
   if (data?.blocked && now < data.resetAt!)
     return { available: false, remaining: 0, resetAt: data.resetAt };
 
-  if (!data || now - data.timestamp >= RATE_LIMIT.WINDOW_MS) {
+  if (!data || now - data.timestamp >= windowMs) {
     cache.rateLimit.set(key, {
       count: 1,
       timestamp: now,
       blocked: false,
     });
-    return { available: true, remaining: RATE_LIMIT.MAX_REQUESTS - 1 };
+    return { available: true, remaining: maxRequests - 1 };
   }
 
   const count = data.count + 1;
 
-  if (count > RATE_LIMIT.MAX_REQUESTS) {
-    const resetAt = now + RATE_LIMIT.BLOCK_DURATION_MS;
+  if (count > maxRequests) {
+    const resetAt = now + blockDurationMs;
 
     cache.rateLimit.set(key, {
       count,
@@ -72,6 +60,10 @@ export const checkRateLimit = (
 
   return {
     available: true,
-    remaining: RATE_LIMIT.MAX_REQUESTS - count,
+    remaining: maxRequests - count,
   };
 };
+
+export const createRateLimiter =
+  (config: RateLimitConfig) => (request: Request) =>
+    checkRateLimit(request, config);

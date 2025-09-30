@@ -1,10 +1,11 @@
 import type {
   CounttyOptions,
   Env,
+  RateLimitConfig,
   RouteContext,
   RouteFunction,
 } from '../@types.js';
-import { checkRateLimit, RATE_LIMIT } from '../configs/rate-limit.js';
+import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
 import { backup } from './routes/backup.js';
@@ -25,11 +26,21 @@ export const createCountty: (options?: CounttyOptions) => {
   };
 } = (options) => {
   const stubName = (options || Object.create(null)).table || 'countty';
+  const rateLimitOptions: CounttyOptions['rateLimit'] =
+    options?.rateLimit || Object.create(null);
+
+  const rateLimitConfig: RateLimitConfig = {
+    maxRequests: rateLimitOptions?.maxRequests || 20,
+    windowMs: rateLimitOptions?.windowMs || 10000,
+    blockDurationMs: rateLimitOptions?.blockDurationMs || 10000,
+  };
+
+  const rateLimiter = createRateLimiter(rateLimitConfig);
 
   return {
     Worker: {
       async fetch(request: Request, env: Env): Promise<Response> {
-        const rateLimit = checkRateLimit(request);
+        const rateLimit = rateLimiter(request);
 
         const headers = Object.freeze({
           'Access-Control-Allow-Origin': '*',
@@ -37,7 +48,7 @@ export const createCountty: (options?: CounttyOptions) => {
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
           'Access-Control-Max-Age': '1800',
           'Content-Type': 'application/json; charset=utf-8',
-          'X-RateLimit-Limit': String(RATE_LIMIT.MAX_REQUESTS),
+          'X-RateLimit-Limit': String(rateLimitConfig.maxRequests),
           'X-RateLimit-Remaining': String(rateLimit.remaining),
           'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
