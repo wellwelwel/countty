@@ -246,9 +246,9 @@ COUNTTY_TOKEN='your-secret-token'
 
 - `create <slug>`: Create a new counter.
 - `views <slug>`: View counter statistics.
-- `remove <slug>`: Remove an existing counter.
+- `remove <slug>`: Remove permanently an existing counter.
 - `backup`: Backup the Countty Durable Object to `./backups/` directory.
-- `reset`: ⚠️ Reset all counters.
+- `reset`: Reset all counters permanently.
 
 ### 🧩 Options
 
@@ -264,13 +264,13 @@ npx countty create "my-blog-post"
 # View counter statistics:
 npx countty views "my-blog-post"
 
-# Remove a counter:
+# Permanently remove a counter:
 npx countty remove "my-blog-post"
 
 # Create backup:
 npx countty backup
 
-# ⚠️ Reset all counters:
+# ⚠️ Permanently reset all counters:
 npx countty reset
 
 # Using custom .env file:
@@ -282,11 +282,11 @@ npx countty --help
 
 > [!TIP]
 >
-> The CLI automatically loads environment variables from `.env` file in your current directory. Use `--env` flag to specify a different location.
+> The **CLI** automatically loads environment variables from `.env` file (if exists) in your current directory. Use `--env` flag to specify a different location.
 
 > [!WARNING]
 >
-> ⚠️ The `reset` command will permanently delete all your counters. Use with caution.
+> The `reset` command will permanently delete all your counters.
 
 ---
 
