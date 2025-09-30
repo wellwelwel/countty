@@ -1,7 +1,7 @@
 {
   "name": "countty",
-  "description": "✚ Easily persist your own Page View Counter for free (no VPS or database plans required).",
-  "version": "0.1.22",
+  "description": "✚ Easily persist your own autonomous Page View Counter for free (no VPS or database plans required).",
+  "version": "0.1.24",
   "main": "./lib/index.js",
   "bin": {
     "countty": "./lib/bin/index.mjs"

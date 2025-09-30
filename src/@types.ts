@@ -4,7 +4,7 @@ type Countty = InstanceType<ReturnType<typeof createDurableObject>>;
 
 export type Env = {
   countty: DurableObjectNamespace<Countty>;
-  TOKEN?: string;
+  COUNTTY_TOKEN?: string;
 };
 
 export type CounttyStub = DurableObjectStub<Countty>;

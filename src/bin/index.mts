@@ -4,6 +4,7 @@ import { argv, cwd, env, exit, loadEnvFile } from 'node:process';
 import { help } from '../helpers/cli.js';
 import { backup } from './commands/backup.mjs';
 import { create } from './commands/create.mjs';
+import { init } from './commands/init.mjs';
 import { remove } from './commands/remove.mjs';
 import { reset } from './commands/reset.mjs';
 import { views } from './commands/views.mjs';
@@ -30,6 +31,22 @@ const { args, envPath } = (() => {
 
 if (existsSync(envPath)) loadEnvFile(envPath);
 
+if (
+  args.length === 0 ||
+  ['help', '--help', '-h'].includes(args[0].trim().toLowerCase())
+) {
+  help();
+  exit(0);
+}
+
+if (
+  args.length === 0 ||
+  ['init', '--init'].includes(args[0].trim().toLowerCase())
+) {
+  await init();
+  exit(0);
+}
+
 const { COUNTTY_URL, COUNTTY_TOKEN } = env || Object.create(null);
 
 if (!COUNTTY_URL) {
@@ -50,15 +67,14 @@ if (!COUNTTY_TOKEN) {
   exit(1);
 }
 
-if (args.length === 0 || ['help', '--help', '-h'].includes(args[0])) {
-  help();
-  exit(0);
-}
-
 const command = args[0]?.trim().toLowerCase();
 const slug = args[1]?.trim();
 
 switch (command) {
+  case 'init':
+    await init();
+    break;
+
   case 'create':
     await create(slug, COUNTTY_URL, COUNTTY_TOKEN);
     break;

@@ -12,7 +12,7 @@ export const reset = async (context: RouteContext): Promise<Response> => {
 
   const api = getApi(request);
 
-  if (!(await checkToken(env?.TOKEN, api)))
+  if (!(await checkToken(env?.COUNTTY_TOKEN, api)))
     return response({ response: { message: 'Unauthorized.' }, status: 401 });
 
   const reseted = await counttyStub.reset();

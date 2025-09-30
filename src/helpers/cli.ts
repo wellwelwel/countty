@@ -28,6 +28,7 @@ export const help = () => {
   console.log(`
 Countty CLI - Available commands:
 
+  npx countty init              - Initialize a new Countty project
   npx countty create <slug>     - Create a new counter
   npx countty remove <slug>     - Remove an existing counter
   npx countty reset             - Reset all counters
@@ -39,6 +40,7 @@ Options:
   --env <path>                  - Specify custom .env file path
 
 Examples:
+  npx countty init
   npx countty create "my-blog-site-a"
   npx countty remove "my-blog-site-a"
   npx countty views "my-blog-site-a"
