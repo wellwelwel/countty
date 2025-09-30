@@ -22,12 +22,12 @@ export const packageJSON = async () => {
     "backup": "countty backup",
     "reset": "countty reset"
   },
+  "dependencies": {
+    "countty": "^${basePackageJSON.version}"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "${basePackageJSON.devDependencies['@cloudflare/workers-types']}",
     "wrangler": "${basePackageJSON.devDependencies['wrangler']}"
-  },
-  "dependencies": {
-    "countty": "^${basePackageJSON.version}"
   }
 }
 `;

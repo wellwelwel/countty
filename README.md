@@ -22,7 +22,7 @@
 In an empty directory, run:
 
 ```sh
-npx -y countty init
+npx -y countty@latest init
 ```
 
 - This will automatically create all the necessary files and install the development dependencies 💫
