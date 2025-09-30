@@ -21,6 +21,6 @@ export async function create(
 \x1b[0m`
   );
   console.log(
-    '😏 \x1b[1mNote:\x1b[0m Naturally, local links do not work for badges.'
+    '💡 \x1b[1mNote:\x1b[0m Naturally, local addresses do not work for badges.'
   );
 }
