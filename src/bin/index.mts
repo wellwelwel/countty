@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { existsSync } from 'node:fs';
 import { argv, cwd, env, exit, loadEnvFile } from 'node:process';
 import { help } from '../helpers/cli.js';
 import { backup } from './commands/backup.mjs';
@@ -27,15 +28,8 @@ const { args, envPath } = (() => {
   };
 })();
 
-loadEnvFile(envPath);
+if (existsSync(envPath)) loadEnvFile(envPath);
 
-if (args.length === 0 || ['help', '--help', '-h'].includes(args[0])) {
-  help();
-  exit(0);
-}
-
-const command = args[0].trim();
-const slug: string | undefined = args[1];
 const { COUNTTY_URL, COUNTTY_TOKEN } = env || Object.create(null);
 
 if (!COUNTTY_URL) {
@@ -55,6 +49,14 @@ if (!COUNTTY_TOKEN) {
 
   exit(1);
 }
+
+if (args.length === 0 || ['help', '--help', '-h'].includes(args[0])) {
+  help();
+  exit(0);
+}
+
+const command = args[0]?.trim().toLowerCase();
+const slug = args[1]?.trim();
 
 switch (command) {
   case 'create':
@@ -79,6 +81,7 @@ switch (command) {
 
   default:
     console.error(`❌ Command "${command}" not recognized.`);
+
     help();
     exit(1);
 }

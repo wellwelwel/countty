@@ -220,6 +220,72 @@ npx wrangler secret put TOKEN # Then press `Enter` to insert your token
 
 ---
 
+## 🛠️ CLI Helper
+
+**Countty** includes a powerful CLI helper to simplify the creation, backup, and maintenance of your counter directly from the terminal.
+
+### 📋 Prerequisites
+
+Before using the CLI, make sure you have the required environment variables set:
+
+- `COUNTTY_URL` - Your Countty API base URL (required)
+- `COUNTTY_TOKEN` - Your authentication token (required for private commands)
+
+You can set these in a `.env` file or export them directly:
+
+```sh
+COUNTTY_URL='https://your-countty-worker.your-subdomain.workers.dev'
+COUNTTY_TOKEN='your-secret-token'
+```
+
+### ✚ Available Commands
+
+- `create <slug>`: Create a new counter.
+- `views <slug>`: View counter statistics.
+- `remove <slug>`: Remove an existing counter.
+- `backup`: Backup the Countty Durable Object to `./backups/` directory.
+- `reset`: ⚠️ Reset all counters.
+
+### 🧩 Options
+
+- `--help` - Show help message
+- `--env <path>` - Specify custom .env file path
+
+### 💡 CLI Examples
+
+```sh
+# Create a new counter:
+npx countty create "my-blog-post"
+
+# View counter statistics:
+npx countty views "my-blog-post"
+
+# Remove a counter:
+npx countty remove "my-blog-post"
+
+# Create backup:
+npx countty backup
+
+# ⚠️ Reset all counters:
+npx countty reset
+
+# Using custom .env file:
+npx countty --env ./config/.env create "my-blog-post"
+
+# Show help:
+npx countty --help
+```
+
+> [!TIP]
+>
+> The CLI automatically loads environment variables from `.env` file in your current directory. Use `--env` flag to specify a different location.
+
+> [!WARNING]
+>
+> ⚠️ The `reset` command will permanently delete all your counters. Use with caution.
+
+---
+
 ## 🎓 Examples
 
 ### ⛅️ Running Countty as a Plug-in
