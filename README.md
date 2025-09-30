@@ -40,8 +40,6 @@ npx -y countty@latest init --plugin
 > [!TIP]
 >
 > - You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
-> - Change your **Worker** app name using the `name` property in `wrangler.jsonc`.
->   - Default is `countty`.
 
 ---
 
@@ -128,7 +126,9 @@ npm run deploy
 
 > [!TIP]
 >
-> You can have an `.env` file for development and another for production.
+> - You can have an `.env` file for development and another for production.
+> - Change your **Worker** app name using the `name` property in `wrangler.jsonc`.
+>   - Default is `countty`.
 
 ### 🔑 Personalize your Tokens
 
