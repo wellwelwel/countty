@@ -14,6 +14,13 @@ export async function create(
     body: JSON.stringify({ slug }),
   });
 
-  console.log('✨', JSON.parse(data));
+  console.log('✨', JSON.parse(data), '\n');
   console.log(`🔗 Permanent URL: \x1b[94m\x1b[1m${url}\x1b[0m`);
+  console.log(
+    `🛡️  Badge Example: \x1b[94m\x1b[1mhttps://img.shields.io/badge/dynamic/json?url=${encodeURIComponent(url)}&query=${encodeURIComponent('$.label')}&logo=target&logoColor=ffffff&label=views&labelColor=70a1ff&color=%232088FF&cacheSeconds=0
+\x1b[0m`
+  );
+  console.log(
+    '😏 \x1b[1mNote:\x1b[0m Naturally, local links do not work for badges.'
+  );
 }

@@ -1,4 +1,5 @@
 import type { RouteContext } from '../../@types.js';
+import { formatNumber } from '../../helpers/format.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 import { resolveStub } from '../../helpers/stub.js';
@@ -31,6 +32,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
     });
 
   const views = await counttyStub.increment(slug);
+  const label = formatNumber(views);
 
-  return response({ response: { views } });
+  return response({ response: { views, label } });
 };

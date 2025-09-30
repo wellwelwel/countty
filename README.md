@@ -158,11 +158,11 @@ npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
 
 ### 🧩 Available Commands
 
-- `create <slug>`: Create a new counter.
-- `views <slug>`: View counter statistics.
-- `remove <slug>`: Remove permanently an existing counter.
-- `backup`: Backup the Countty Durable Object to `./backups/` directory.
-- `reset`: Reset all counters permanently.
+- `npx countty create <slug>`: Create a new counter.
+- `npx countty views <slug>`: View counter statistics.
+- `npx countty remove <slug>`: Remove permanently an existing counter.
+- `npx countty backup`: Backup the Countty Durable Object to `./backups/` directory.
+- `npx countty reset`: Reset all counters permanently.
 
 ### 🕹️ Options
 
