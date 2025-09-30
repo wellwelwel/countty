@@ -24,6 +24,11 @@ export const createCountty: (options?: CounttyOptions) => {
     remove: RouteFunction;
     reset: RouteFunction;
   };
+  rateLimiter: (request: Request) => {
+    available: boolean;
+    remaining: number;
+    resetAt?: number;
+  };
 } = (options) => {
   const stubName = (options || Object.create(null)).table || 'countty';
   const rateLimitOptions: CounttyOptions['rateLimit'] =
@@ -114,5 +119,6 @@ export const createCountty: (options?: CounttyOptions) => {
       views,
       reset,
     },
+    rateLimiter,
   };
 };
