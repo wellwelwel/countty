@@ -17,7 +17,8 @@ export const list = async (context: RouteContext): Promise<Response> => {
   const allSlugs = await stub.list();
 
   const formattedSlugs = allSlugs.map((item) => ({
-    slug: item.slug,
+    slug: decodeURIComponent(item.slug),
+    URI: item.slug,
     views: item.views,
     label: formatNumber(item.views),
   }));
