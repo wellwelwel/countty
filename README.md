@@ -33,6 +33,15 @@ npx -y countty@latest init
 > - Change your **Worker** app name using the `name` property in `wrangler.jsonc`.
 >   - Default is `countty`.
 
+> [!IMPORTANT]
+>
+> By default, the token is randomly generated with `100` characters and the URL is `"http://localhost:8787"`. You can change it in the `.env` file, for example:
+>
+> ```sh
+> COUNTTY_URL='https://countty.<your-subdomain>.workers.dev'
+> COUNTTY_TOKEN='your-secret-token'
+> ```
+
 ---
 
 ### ⛅️ Countty Standalone
@@ -62,19 +71,6 @@ npm run dev
 > **Example**:
 >
 > <img src="./.github/assets/sample.png" width="480" />
-
-> [!IMPORTANT]
->
-> By default, the token for private routes is `"123456"` and the URL is `"http://localhost:8787"`. You can change it in the `.env` file, for example:
->
-> ```sh
-> COUNTTY_URL='https://countty.<your-subdomain>.workers.dev'
-> COUNTTY_TOKEN='your-secret-token'
-> ```
-
-> [!TIP]
->
-> You can have an `.env` file for development and another for production.
 
 ---
 
@@ -138,6 +134,10 @@ For production use, you will need a [**Cloudflare**](https://dash.cloudflare.com
 npm run deploy
 ```
 
+> [!TIP]
+>
+> You can have an `.env` file for development and another for production.
+
 ### 🔑 Personalize your Token
 
 To safe use your token in production without uploading `.env` files, you can create a secret:
@@ -150,7 +150,7 @@ npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
 
 ## 🛠️ CLI Helper
 
-**Countty** includes a CLI helper to simplify the creation, backup, and maintenance of your counter directly from the terminal.
+**Countty** includes a **CLI** helper to simplify the creation, backup, and maintenance of your counter directly from the terminal.
 
 > [!NOTE]
 >
