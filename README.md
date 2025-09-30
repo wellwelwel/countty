@@ -213,7 +213,7 @@ const Worker: ExportedHandler<Env> = {
     switch (url.pathname) {
       // Your routes...
 
-      // Personalize your Countty routes
+      // Personalize your Countty routes:
       case '/views':
         return routes.views(context);
       case '/create':
