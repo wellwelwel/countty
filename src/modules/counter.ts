@@ -16,7 +16,7 @@ export const createDurableObject = (stubName: string) =>
       this.stubName = stubName.trim();
       this.sql = ctx.storage.sql;
       this.sql.exec(
-        `CREATE TABLE IF NOT EXISTS \`${this.stubName}\`(\`id\` INTEGER PRIMARY KEY, \`slug\` VARCHAR(255) UNIQUE NOT NULL, \`views\` INTEGER DEFAULT 0);`
+        `CREATE TABLE IF NOT EXISTS \`${this.stubName}\`(\`id\` INTEGER PRIMARY KEY, \`slug\` VARCHAR(255) UNIQUE NOT NULL, \`views\` INTEGER DEFAULT 0, \`createdAt\` DATETIME DEFAULT CURRENT_TIMESTAMP);`
       );
     }
 
@@ -47,7 +47,7 @@ export const createDurableObject = (stubName: string) =>
     }
 
     async create(slug: string): Promise<boolean> {
-      const sql = `INSERT INTO \`${this.stubName}\` (\`slug\`, \`views\`) VALUES (?, 0)`;
+      const sql = `INSERT INTO \`${this.stubName}\` (\`slug\`, \`views\`, \`createdAt\`) VALUES (?, 0, CURRENT_TIMESTAMP)`;
 
       try {
         this.sql.exec(sql, slug);
@@ -58,7 +58,7 @@ export const createDurableObject = (stubName: string) =>
     }
 
     async set(slug: string, views: number): Promise<void> {
-      const sql = `INSERT INTO \`${this.stubName}\` (\`slug\`, \`views\`) VALUES (?, ?) ON CONFLICT(\`slug\`) DO UPDATE SET \`views\` = \`excluded\`.\`views\``;
+      const sql = `INSERT INTO \`${this.stubName}\` (\`slug\`, \`views\`, \`createdAt\`) VALUES (?, ?, CURRENT_TIMESTAMP) ON CONFLICT(\`slug\`) DO UPDATE SET \`views\` = \`excluded\`.\`views\``;
       this.sql.exec(sql, slug, views);
     }
 
@@ -84,8 +84,10 @@ export const createDurableObject = (stubName: string) =>
       }
     }
 
-    async list(): Promise<Array<{ slug: string; views: number }>> {
-      const sql = `SELECT \`slug\`, \`views\` FROM \`${this.stubName}\` ORDER BY \`views\` DESC, \`slug\` ASC`;
+    async list(): Promise<
+      Array<{ slug: string; views: number; createdAt: string }>
+    > {
+      const sql = `SELECT \`slug\`, \`views\`, \`createdAt\` FROM \`${this.stubName}\` ORDER BY \`views\` DESC, \`slug\` ASC`;
 
       try {
         const results = this.sql.exec(sql).toArray();
@@ -93,6 +95,7 @@ export const createDurableObject = (stubName: string) =>
         return results.map((row) => ({
           slug: String(row.slug),
           views: Number(row.views),
+          createdAt: String(row.createdAt),
         }));
       } catch {
         return [];
@@ -125,10 +128,13 @@ export const createDurableObject = (stubName: string) =>
 
       if (data.length > 0) {
         sqlDump += '-- Table data\n';
-        sqlDump += `INSERT INTO \`${this.stubName}\` (\`id\`, \`slug\`, \`views\`) VALUES\n`;
+        sqlDump += `INSERT INTO \`${this.stubName}\` (\`id\`, \`slug\`, \`views\`, \`createdAt\`) VALUES\n`;
 
         const values = data
-          .map((row) => `(${row.id}, '${String(row.slug)}', ${row.views})`)
+          .map(
+            (row) =>
+              `(${row.id}, '${String(row.slug)}', ${row.views}, '${String(row.createdAt)}')`
+          )
           .join(',\n');
 
         sqlDump += `${values};\n\n`;

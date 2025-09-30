@@ -21,6 +21,7 @@ export const list = async (context: RouteContext): Promise<Response> => {
     URI: item.slug,
     views: item.views,
     label: formatNumber(item.views),
+    createdAt: item.createdAt,
   }));
 
   return response({
