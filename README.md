@@ -1,6 +1,10 @@
 <div align="center">
   <h1>Countty ✚</h1>
   <p>Easily persist your own <b>Page View Counter</b> for free.</p>
+
+[![NPM Version](https://img.shields.io/npm/v/countty.svg?label=&color=70a1ff&logo=npm&logoColor=white)](https://www.npmjs.com/package/countty)
+[![NPM Downloads](https://img.shields.io/npm/dm/countty.svg?label=&logo=npm&logoColor=white&color=45aaf2)](https://www.npmjs.com/package/countty)
+
 </div>
 
 ---
