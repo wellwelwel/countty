@@ -241,7 +241,7 @@ import { createCountty } from 'countty';
 
 const options: CounttyOptions = {
   // Changes the table name in the SQLite Durable Object.
-  table: 'my-table',
+  table: 'countty',
 };
 
 const { Worker, Countty } = createCountty(options);
