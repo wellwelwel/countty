@@ -8,5 +8,5 @@ export const list = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
     },
   });
 
-  console.log(JSON.parse(data));
+  console.dir(JSON.parse(data), { depth: Infinity });
 };
