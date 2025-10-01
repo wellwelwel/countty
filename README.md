@@ -73,8 +73,8 @@ npm run dev
 
 > **Examples:**
 >
-> - `<url>/views?slug:github:profile`
-> - `<url>/badge?slug:github:profile`
+> - `<url>/views?slug=github:profile`
+> - `<url>/badge?slug=github:profile`
 
 > [!TIP]
 >
