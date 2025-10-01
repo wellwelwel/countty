@@ -278,3 +278,10 @@ Data retrieved from the above links on <ins>October 1, 2025</ins>:
 > [!TIP]
 >
 > For even more privacy, you can add the option `"send_metrics": false` to your **wrangler.jsonc** file.
+
+---
+
+## 📄 License
+
+**Countty** is under the [**AGPL-3.0 License**](https://github.com/wellwelwel/countty/blob/main/LICENSE).<br />
+Copyright © 2025-present [Weslley Araújo](https://github.com/wellwelwel) and **Countty** [contributors](https://github.com/wellwelwel/countty/graphs/contributors).
