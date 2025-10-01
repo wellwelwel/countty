@@ -33,6 +33,7 @@
     "test": "npm run lint && npm run typecheck"
   },
   "dependencies": {
+    "badge-maker": "^5.0.2",
     "bcryptjs": "^3.0.2",
     "lru.min": "^1.1.2"
   },

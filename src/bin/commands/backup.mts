@@ -3,7 +3,7 @@ import { request } from '../../helpers/cli.js';
 
 export const backup = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
   const { data } = await request(`${COUNTTY_URL}/backup`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${COUNTTY_TOKEN}`,
     },

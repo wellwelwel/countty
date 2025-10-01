@@ -8,6 +8,7 @@ import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
 import { backup } from './routes/backup.js';
+import { badge } from './routes/badge.js';
 import { create } from './routes/create.js';
 import { list } from './routes/list.js';
 import { remove } from './routes/remove.js';
@@ -23,7 +24,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     options?.rateLimit || Object.create(null);
 
   const rateLimitConfig: RateLimitConfig = {
-    maxRequests: rateLimitOptions?.maxRequests || 20,
+    maxRequests: rateLimitOptions?.maxRequests || 100,
     windowMs: rateLimitOptions?.windowMs || 10000,
     blockDurationMs: rateLimitOptions?.blockDurationMs || 10000,
   };
@@ -44,6 +45,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         create: () => create(context),
         list: () => list(context),
         views: () => views(context),
+        badge: () => badge(context),
         remove: () => remove(context),
         reset: () => reset(context),
       },
@@ -53,7 +55,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
       const { router, rateLimit } = createContext(request, env);
-      const { backup, create, remove, reset, list, views } = router;
+      const { backup, badge, create, list, remove, reset, views } = router;
 
       const headers = Object.freeze({
         'Access-Control-Allow-Origin': '*',
@@ -88,6 +90,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
             return create();
           case '/views':
             return views();
+          case '/badge':
+            return badge();
           case '/remove':
             return remove();
           case '/backup':

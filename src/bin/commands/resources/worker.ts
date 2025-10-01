@@ -11,6 +11,7 @@ const Worker: ExportedHandler<Env> = {
     const customRoute: Record<string, () => Promise<Response>> = {
       '/create': router.create,
       '/views': router.views,
+      '/badge': router.badge,
       '/remove': router.remove,
       '/backup': router.backup,
       '/list': router.list,

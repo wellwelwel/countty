@@ -59,58 +59,58 @@ npm run dev
 
 #### `/create`
 
-```sh
-npm run create <slug>
-```
-
 - Creates a new counter for the specified slug.
-- Type: **private**.
+- Authentication: **Required**.
+- Method: `POST`.
 
-#### `/views`
-
-```sh
-npm run views <slug>
-```
+#### `/views` and `/badge`
 
 - Increments a view and returns the number of views for the specified slug.
 - Returns `0` when the slug does not exist.
-- Type: **public**.
+- Authentication: **Public**.
+- Method: `GET`.
+
+> **Examples:**
+>
+> - `<url>/views?slug:github:profile`
+> - `<url>/badge?slug:github:profile`
+
+> [!TIP]
+>
+> 🛡️ You can customize your **Badge**, for example:
+>
+> - **label**: `<url>/badge?slug:github:profile&label=views`
+>   - Default: `views`.
+> - **labelColor**: `<url>/badge?slug:github:profile&labelColor=70a1ff`
+>   - Label color.
+> - **color**: `<url>/badge?slug:github:profile&color=98cc00`
+>   - Views background color.
+> - **style**: `<url>/badge?slug:github:profile&style=flat`
+>   - Supported: `flat`, `flat-square`, `plastic`, `social`, and `for-the-badge`.
 
 #### `/remove`
 
-```sh
-npm run remove <slug>
-```
-
 - Permanently removes the specified slug.
-- Type: **private**.
+- Authentication: **Required**.
+- Method: `POST`.
 
 #### `/backup`
 
-```sh
-npm run backup
-```
-
 - Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.
-- Type: **private**.
+- Authentication: **Required**.
+- Method: `POST`.
 
 #### `/list`
 
-```sh
-npm run list
-```
-
 - Returns the number of slugs and list all **Countty** slugs.
-- Type: **private**.
+- Authentication: **Required**.
+- Method: `POST`.
 
 #### `/reset`
 
-```sh
-npm run reset
-```
-
 - ⚠️ Permanently reset the **Countty** **Durable Object**.
-- Type: **private**.
+- Authentication: **Required**.
+- Method: `POST`.
 
 ---
 
@@ -135,7 +135,7 @@ npm run deploy
 To safe use your token in production without uploading `.env` files, you can create a secret:
 
 ```sh
-npx wrangler secret put COUNTTY_TOKEN # Then press `Enter` to insert your token
+npm run secret # Then put your COUNTTY_TOKEN from .env file.
 ```
 
 > [!IMPORTANT]
@@ -191,7 +191,7 @@ const options: CounttyOptions = {
 
   // Rate limiting configuration:
   rateLimit: {
-    maxRequests: 30, // Maximum requests allowed in the time window.
+    maxRequests: 100, // Maximum requests allowed in the time window.
     windowMs: 10000, // Time window in milliseconds.
     blockDurationMs: 10000, // Block duration when limit exceeded.
   },

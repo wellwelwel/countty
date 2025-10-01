@@ -4,6 +4,10 @@ import { response } from '../../helpers/response.js';
 
 export const backup = async (context: RouteContext): Promise<Response> => {
   const { request, env, stub, headers } = context;
+
+  if (request.method !== 'POST')
+    return new Response('Method not allowed.', { status: 405 });
+
   const { filename, dump } = await stub.backup();
   const api = getApi(request);
 

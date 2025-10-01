@@ -1,0 +1,79 @@
+import type { Format } from 'badge-maker';
+import type { RouteContext } from '../../@types.js';
+import { makeBadge } from 'badge-maker';
+import { formatNumber } from '../../helpers/format.js';
+import { normalizeSlug } from '../../helpers/normalize-chars.js';
+import { response } from '../../helpers/response.js';
+
+const normalizeHexColor = (color?: string): string | undefined => {
+  if (!color) return undefined;
+
+  return `#${color.replace(/#|[^a-f0-9]/g, '').substring(0, 6)}`;
+};
+
+export const badge = async (context: RouteContext): Promise<Response> => {
+  const { request, stub } = context;
+
+  const url = new URL(request.url);
+  const slugRaw = url.searchParams.get('slug');
+
+  if (typeof slugRaw !== 'string' || !slugRaw) {
+    return response({
+      response: { message: 'Slug parameter is required [1].' },
+      status: 400,
+    });
+  }
+
+  if (typeof slugRaw !== 'string')
+    return response({
+      response: { message: 'Slug parameter is required [1].' },
+      status: 400,
+    });
+
+  const slug = normalizeSlug(slugRaw);
+  if (slug.length === 0)
+    return response({
+      response: { message: 'Slug parameter is required [2].' },
+      status: 400,
+    });
+
+  const views = await stub.increment(slug);
+  const message = formatNumber(views);
+  const label =
+    typeof url.searchParams.get('label') === 'string'
+      ? url.searchParams.get('label')?.trim()
+      : 'views';
+  const color = url.searchParams.get('color')?.trim().toLowerCase();
+  const labelColor = url.searchParams.get('labelColor')?.trim().toLowerCase();
+  const styleParam = url.searchParams.get('style')?.trim().toLowerCase();
+  const badgeOption: Format = Object.create(null);
+
+  let style: Format['style'] = 'flat';
+
+  if (
+    styleParam === 'flat' ||
+    styleParam === 'plastic' ||
+    styleParam === 'flat-square' ||
+    styleParam === 'for-the-badge' ||
+    styleParam === 'social'
+  ) {
+    style = styleParam;
+  }
+
+  if (label) badgeOption.label = label;
+  if (color) badgeOption.color = normalizeHexColor(color);
+  if (labelColor) badgeOption.labelColor = normalizeHexColor(labelColor);
+  if (style) badgeOption.style = style;
+
+  const svg = makeBadge({
+    ...badgeOption,
+    message,
+  });
+
+  return new Response(svg, {
+    headers: {
+      'Content-Type': 'image/svg+xml; charset=utf-8',
+      'Cache-Control': 'no-store',
+    },
+  });
+};

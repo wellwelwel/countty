@@ -7,6 +7,7 @@ type CounttyRoutes = () => Promise<Response>;
 type Router = {
   create: CounttyRoutes;
   views: CounttyRoutes;
+  badge: CounttyRoutes;
   remove: CounttyRoutes;
   backup: CounttyRoutes;
   list: CounttyRoutes;
