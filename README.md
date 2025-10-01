@@ -213,7 +213,68 @@ const { Worker, Countty } = createCountty(options);
 
 ---
 
-## ⚖️ Restrictions on the free plan:
+## 🕵️‍♂️ Transparency
+
+### 📦 `init`
+
+The `init` command installs three dependencies in **package.json**:
+
+#### Dependencies:
+
+- [**countty**](https://www.npmjs.com/package/countty) (_itself_ 👋)
+
+#### Development Dependencies:
+
+- [**@cloudflare/workers-types**](https://www.npmjs.com/package/@cloudflare/workers-types)
+- [**wrangler**](https://www.npmjs.com/package/wrangler)
+
+> [!NOTE]
+>
+> #### [**countty**](https://www.npmjs.com/package/countty) subdependencies
+>
+> - [**badge-maker**](https://www.npmjs.com/package/badge-maker): To create badges dynamically.
+> - [**bcryptjs**](https://www.npmjs.com/package/bcryptjs): For improved authentication security with native **Node.js**.
+> - [**lru.min**](https://www.npmjs.com/package/lru.min): For cache in memory, performance improvements, and an efficient rate limit.
+
+---
+
+### ⚖️ Restrictions on the free plan:
 
 - **Workers:** https://developers.cloudflare.com/workers/platform/pricing/
-- **Durable Objects (SQLite):** https://developers.cloudflare.com/durable-objects/platform/pricing/
+- **Durable Objects:** https://developers.cloudflare.com/durable-objects/platform/pricing/
+- **SQLite:** https://developers.cloudflare.com/durable-objects/platform/pricing/#sqlite-storage-backend
+
+<blockquote>
+
+Data retrieved from the above links on <ins>October 1, 2025</ins>:
+
+#### Workers:
+
+- `100,000` requests per day.
+- No charge for duration.
+- `10 milliseconds` of CPU time per invocation.
+
+#### Durable Objects:
+
+- `100,000` requests per day.
+- `13,000 GB-s` per day _(gigabyte-seconds of compute duration while the object is active in memory)_.
+
+#### SQLite:
+
+- `5 million` rows reads per day.
+- `100,000` rows writes per day.
+- `5 GB` (total) SQL Stored data.
+
+</blockquote>
+
+---
+
+### 🔒 Privacy
+
+**Countty** itself does not collect, process, or analyze any personal data whatsoever. However, **Cloudflare Workers** provides observability dashboards that may log request metadata for monitoring purposes.
+
+- All view count data is stored exclusively in your own **Durable Object** instance and remains under your full control.
+
+> [!TIP]
+>
+> For even more privacy, you can add the option `"send_metrics": false` to your **wrangler.jsonc** file.
