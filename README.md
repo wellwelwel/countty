@@ -71,10 +71,12 @@ npm run dev
 - Authentication: **Public**.
 - Method: `GET`.
 
-> **Examples:**
->
-> - `<url>/views?slug=github:profile`
-> - `<url>/badge?slug=github:profile`
+**Examples:**
+
+```sh
+<url>/views?slug=github:profile
+<url>/badge?slug=github:profile
+```
 
 > [!TIP]
 >
