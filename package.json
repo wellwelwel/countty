@@ -57,5 +57,41 @@
   },
   "engines": {
     "node": ">=22.0"
-  }
+  },
+  "keywords": [
+    "counter",
+    "page-views",
+    "view-counter",
+    "analytics",
+    "tracking",
+    "visitor-counter",
+    "page-counter",
+    "hit-counter",
+    "statistics",
+    "cloudflare",
+    "cloudflare-workers",
+    "workers",
+    "durable-objects",
+    "serverless",
+    "edge-computing",
+    "edge",
+    "cdn",
+    "free",
+    "self-hosted",
+    "privacy",
+    "sqlite",
+    "badge",
+    "badge-generator",
+    "shields",
+    "github-profile",
+    "readme",
+    "portfolio",
+    "blog",
+    "monitoring",
+    "metrics",
+    "google-analytics",
+    "plausible",
+    "umami",
+    "fathom"
+  ]
 }
