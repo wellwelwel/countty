@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret": "wrangler secret put COUNTTY_TOKEN",
+    "create": "countty create",
+    "views": "countty views",
+    "remove": "countty remove",
+    "backup": "countty backup",
+    "list": "countty list",
+    "reset": "countty reset"
+  },
+  "dependencies": {
+    "countty": "^1.2.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251001.0",
+    "wrangler": "^4.40.3"
+  }
+}

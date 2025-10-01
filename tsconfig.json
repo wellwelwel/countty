@@ -24,5 +24,7 @@
     "declaration": true,
     "declarationDir": "lib",
     "outDir": "lib"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["examples", "node_modules", "lib"]
 }
