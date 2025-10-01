@@ -3,7 +3,7 @@
 ## [1.2.1](https://github.com/wellwelwel/countty/compare/v1.2.0...v1.2.1) (2025-10-01)
 
 
-### Bug Fixes
+### Community Guides
 
 * **docs:** include Code of Conduct ([9a3a6c5](https://github.com/wellwelwel/countty/commit/9a3a6c508513bb8bfafb217d8c37e390a6fdd980))
 * **docs:** include Contributing Guidelines ([31aeaff](https://github.com/wellwelwel/countty/commit/31aeaff9f9dd3f2c02af30994a7e0ea7f2cba0d8))
