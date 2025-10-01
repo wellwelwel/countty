@@ -37,6 +37,7 @@ export const badge = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
+  const badgeOption: Format = Object.create(null);
   const views = await stub.increment(slug);
   const message = formatNumber(views);
   const label =
@@ -46,24 +47,29 @@ export const badge = async (context: RouteContext): Promise<Response> => {
   const color = url.searchParams.get('color')?.trim().toLowerCase();
   const labelColor = url.searchParams.get('labelColor')?.trim().toLowerCase();
   const styleParam = url.searchParams.get('style')?.trim().toLowerCase();
-  const badgeOption: Format = Object.create(null);
+  const logoBase64 =
+    typeof url.searchParams.get('logo') === 'string'
+      ? decodeURIComponent(
+          url.searchParams.get('logo')!.replace(/\s/g, '+')
+        ).trim()
+      : undefined;
 
   let style: Format['style'] = 'flat';
-
   if (
     styleParam === 'flat' ||
     styleParam === 'plastic' ||
     styleParam === 'flat-square' ||
     styleParam === 'for-the-badge' ||
     styleParam === 'social'
-  ) {
+  )
     style = styleParam;
-  }
 
   if (label) badgeOption.label = label;
   if (color) badgeOption.color = normalizeHexColor(color);
   if (labelColor) badgeOption.labelColor = normalizeHexColor(labelColor);
   if (style) badgeOption.style = style;
+  if (logoBase64)
+    badgeOption.logoBase64 = `data:image/svg+xml;base64,${logoBase64}`;
 
   const svg = makeBadge({
     ...badgeOption,

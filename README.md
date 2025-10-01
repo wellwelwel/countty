@@ -90,6 +90,8 @@ npm run dev
 >   - Views background color.
 > - **style**: `<url>/badge?slug:github:profile&style=flat`
 >   - Supported: `flat`, `flat-square`, `plastic`, `social`, and `for-the-badge`.
+> - **logo**: `<url>/badge?slug:github:profile&logo=PHN2Zy...C9zdmc+`
+>   - An **SVG** directly encoded to [**Base64**](https://www.base64encode.org/).
 
 #### `/remove`
 
