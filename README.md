@@ -12,8 +12,9 @@
 - Ready for use via [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) and [**Durable Objects**](https://developers.cloudflare.com/durable-objects/) ⛅️
 - No hosting, domains, **VPS** or database plans required 💸
 - No need to configure servers or databases ✨
-- **Countty** can be used both as a plug-in and a self-contained [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
+- Built-in support for customizable Badges 🛡️
 - **CLI** helper to simplify the creation, backup, and maintenance of your counter 🛠️
+- **Countty** can be used both as a plug-in and a standalone [**Worker**](https://developers.cloudflare.com/workers/) app ⚡️
 
 ---
 
@@ -27,7 +28,7 @@ To automatically create all necessary files and install the dependencies, run in
 npx -y countty@latest init
 ```
 
-- **Easy:** Creates a self-contained Worker unique to **Countty**.
+- **Easy:** Creates a self-contained **Worker** exclusive for **Countty**.
 
 ### 🧩 Plug-in
 
@@ -37,13 +38,9 @@ npx -y countty@latest init --plugin
 
 - **Advanced:** It exposes **Countty** routes, allowing integration with different routes, as well as customization of existing routes.
 
-> [!TIP]
->
-> - You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
-
 ---
 
-### 🏁 Run
+### 🏁 Run Locally
 
 ```sh
 npm run dev
@@ -52,6 +49,10 @@ npm run dev
 > **Example**:
 >
 > <img src="./.github/assets/sample.png" width="480" />
+
+> [!TIP]
+>
+> - You can test it locally, even if you don't have a [**Cloudflare**](https://dash.cloudflare.com/) account.
 
 ---
 
@@ -63,7 +64,7 @@ npm run dev
 - Authentication: **Required**.
 - Method: `POST`.
 
-#### `/views` and `/badge`
+#### `/views` and `/badge` ⭐️
 
 - Increments a view and returns the number of views for the specified slug.
 - Returns `0` when the slug does not exist.
