@@ -16,6 +16,7 @@ export const packageJSON = async () => {
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "secret": "wrangler secret put COUNTTY_TOKEN",
     "create": "countty create",
     "views": "countty views",
     "remove": "countty remove",

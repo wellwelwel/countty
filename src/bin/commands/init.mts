@@ -20,7 +20,7 @@ const exists = async (path: string) => {
 
 const createResource = async (path: string, content: string) => {
   await writeFile(path, content, 'utf-8');
-  console.log(`✅ Created ./${basename(path)}`);
+  console.log(`✅ \x1b[2mCreated\x1b[0m \x1b[4m./${basename(path)}\x1b[0m`);
 };
 
 const npmInstall = async () => {
