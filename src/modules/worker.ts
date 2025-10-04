@@ -3,6 +3,7 @@ import type {
   CounttyReturn,
   Env,
   RateLimitConfig,
+  RouteOptions,
 } from '../@types.js';
 import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
@@ -41,13 +42,13 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     return {
       rateLimit: rateLimiter(request),
       router: {
-        backup: () => backup(context),
-        create: () => create(context),
-        list: () => list(context),
-        views: () => views(context),
-        badge: () => badge(context),
-        remove: () => remove(context),
-        reset: () => reset(context),
+        backup: (options?: RouteOptions) => backup({ ...context, ...options }),
+        create: (options?: RouteOptions) => create({ ...context, ...options }),
+        list: (options?: RouteOptions) => list({ ...context, ...options }),
+        views: (options?: RouteOptions) => views({ ...context, ...options }),
+        badge: (options?: RouteOptions) => badge({ ...context, ...options }),
+        remove: (options?: RouteOptions) => remove({ ...context, ...options }),
+        reset: (options?: RouteOptions) => reset({ ...context, ...options }),
       },
     };
   };
@@ -71,11 +72,11 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
 
       if (!rateLimit.available)
         return response({
+          headers,
           response: {
             message: 'Request limit exceeded. Please try again later.',
           },
           status: 429,
-          headers,
         });
 
       try {
@@ -87,30 +88,31 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         /** Routes */
         switch (url.pathname) {
           case '/create':
-            return create();
+            return create({ headers });
           case '/views':
-            return views();
+            return views({ headers });
           case '/badge':
-            return badge();
+            return badge({ headers });
           case '/remove':
-            return remove();
+            return remove({ headers });
           case '/backup':
-            return backup();
+            return backup({ headers });
           case '/list':
-            return list();
+            return list({ headers });
           case '/reset':
-            return reset();
+            return reset({ headers });
           default:
             return response({
+              headers,
               response: { message: 'Not found.' },
               status: 404,
-              headers,
             });
         }
       } catch (error) {
         console.error(error);
 
         return response({
+          headers,
           response: { message: 'Oops! Internal error.' },
           status: 500,
         });

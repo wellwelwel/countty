@@ -4,13 +4,14 @@ import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
-  const { request, stub } = context;
+  const { request, stub, headers } = context;
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
 
   if (typeof slugRaw !== 'string' || !slugRaw) {
     return response({
+      headers,
       response: { message: 'Slug parameter is required [1].' },
       status: 400,
     });
@@ -18,6 +19,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
 
   if (typeof slugRaw !== 'string')
     return response({
+      headers,
       response: { message: 'Slug parameter is required [1].' },
       status: 400,
     });
@@ -25,6 +27,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
   const slug = normalizeSlug(slugRaw);
   if (slug.length === 0)
     return response({
+      headers,
       response: { message: 'Slug parameter is required [2].' },
       status: 400,
     });
@@ -32,5 +35,5 @@ export const views = async (context: RouteContext): Promise<Response> => {
   const views = await stub.increment(slug);
   const label = formatNumber(views);
 
-  return response({ response: { views, label } });
+  return response({ headers, response: { views, label } });
 };

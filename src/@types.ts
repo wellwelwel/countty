@@ -25,12 +25,15 @@ export type Env = {
   COUNTTY_TOKEN?: string;
 };
 
+export type RouteOptions = {
+  headers?: Record<string, string>;
+};
+
 export type RouteContext = {
   request: Request;
   env: Env;
   stub: DurableObjectStub<Countty>;
-  headers?: Record<string, string>;
-};
+} & RouteOptions;
 
 export type RateLimitData = {
   count: number;

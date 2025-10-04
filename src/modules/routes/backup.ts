@@ -12,7 +12,11 @@ export const backup = async (context: RouteContext): Promise<Response> => {
   const api = getApi(request);
 
   if (!(await checkToken(env?.COUNTTY_TOKEN, api)))
-    return response({ response: { message: 'Unauthorized.' }, status: 401 });
+    return response({
+      headers,
+      response: { message: 'Unauthorized.' },
+      status: 401,
+    });
 
   return new Response(new TextDecoder().decode(dump), {
     status: 200,

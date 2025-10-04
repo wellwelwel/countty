@@ -4,7 +4,7 @@ import { formatNumber } from '../../helpers/format.js';
 import { response } from '../../helpers/response.js';
 
 export const list = async (context: RouteContext): Promise<Response> => {
-  const { request, env, stub } = context;
+  const { request, env, stub, headers } = context;
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });
@@ -12,7 +12,11 @@ export const list = async (context: RouteContext): Promise<Response> => {
   const api = getApi(request);
 
   if (!(await checkToken(env?.COUNTTY_TOKEN, api)))
-    return response({ response: { message: 'Unauthorized.' }, status: 401 });
+    return response({
+      headers,
+      response: { message: 'Unauthorized.' },
+      status: 401,
+    });
 
   const allSlugs = await stub.list();
 
@@ -25,6 +29,7 @@ export const list = async (context: RouteContext): Promise<Response> => {
   }));
 
   return response({
+    headers,
     response: {
       total: allSlugs.length,
       slugs: formattedSlugs,

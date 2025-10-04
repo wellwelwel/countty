@@ -12,7 +12,7 @@ const normalizeHexColor = (color?: string): string | undefined => {
 };
 
 export const badge = async (context: RouteContext): Promise<Response> => {
-  const { request, stub } = context;
+  const { request, stub, headers } = context;
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
@@ -26,6 +26,7 @@ export const badge = async (context: RouteContext): Promise<Response> => {
 
   if (typeof slugRaw !== 'string')
     return response({
+      headers,
       response: { message: 'Slug parameter is required [1].' },
       status: 400,
     });
@@ -33,6 +34,7 @@ export const badge = async (context: RouteContext): Promise<Response> => {
   const slug = normalizeSlug(slugRaw);
   if (slug.length === 0)
     return response({
+      headers,
       response: { message: 'Slug parameter is required [2].' },
       status: 400,
     });
@@ -78,6 +80,7 @@ export const badge = async (context: RouteContext): Promise<Response> => {
 
   return new Response(svg, {
     headers: {
+      ...headers,
       'Content-Type': 'image/svg+xml; charset=utf-8',
       'Cache-Control': 'no-store',
     },
