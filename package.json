@@ -36,14 +36,14 @@
     "lru.min": "^1.1.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251001.0",
+    "@cloudflare/workers-types": "^4.20251004.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "@types/node": "^24.6.1",
+    "@types/node": "^24.6.2",
     "packages-update": "^2.0.0",
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "wrangler": "^4.40.3"
+    "wrangler": "^4.42.0"
   },
   "files": [
     "lib"
