@@ -22,13 +22,11 @@
   "author": "https://github.com/wellwelwel",
   "scripts": {
     "start": "wrangler dev",
-    "build": "tsc",
-    "postbuild": "chmod +x ./lib/bin/index.mjs",
+    "build": "tsc && chmod +x ./lib/bin/index.mjs",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "npm:patch": "npm version patch --no-git-tag-version",
-    "update": "pu minor && npm i && (npm audit fix || true)",
-    "postupdate": "npm run lint:fix",
+    "update": "pu minor && npm i && (npm audit fix || true) && npm run lint:fix",
     "typecheck": "tsc --noEmit",
     "test": "npm run lint && npm run typecheck"
   },
