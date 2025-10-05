@@ -1,3 +1,6 @@
-import type { CounttyOptions } from '../@types.js';
+import type { GlobalCounttyOptions } from '../@types.js';
 
-export const GlobalCounttyOptions: CounttyOptions = Object.create(null);
+export const GlobalOptions: GlobalCounttyOptions = Object.freeze({
+  user: Object.create(null),
+  internal: Object.create(null),
+});

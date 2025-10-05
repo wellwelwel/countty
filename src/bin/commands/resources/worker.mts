@@ -1,12 +1,12 @@
-export const workerPlugin = `import type { CounttyRouter, Env } from 'countty';
-import { createCountty } from 'countty';
+export const workerPlugin = `import { createCountty, type CounttyRouter, type Env } from 'countty';
 
 const { Countty, createContext } = createCountty();
 
 const Worker: ExportedHandler<Env> = {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const { router, rateLimit } = createContext(request, env);
+    const { router } = createContext(request, env);
 
+    // Countty Routes
     const customRoute: CounttyRouter = {
       '/create': router.create,
       '/views': router.views,
@@ -21,19 +21,9 @@ const Worker: ExportedHandler<Env> = {
     const url = new URL(request.url);
     const { pathname } = url;
 
-    // Countty Routes
-    if (pathname in customRoute) {
-      if (!rateLimit.available)
-        return new Response(
-          JSON.stringify({
-            message: 'Request limit exceeded. Please try again later.',
-          }),
-          { status: 429 }
-        );
+    if (pathname in customRoute) return customRoute[pathname]();
 
-      return customRoute[pathname]();
-    }
-
+    // Your routes
     return new Response(JSON.stringify({ message: 'Not found.' }), {
       status: 404,
     });

@@ -55,6 +55,13 @@ export type RouteCacheData = {
   timestamp: number;
 };
 
+export type GlobalCounttyOptions = Readonly<{
+  user: CounttyOptions;
+  internal: Partial<{
+    rateLimit: CounttyRateLimit;
+  }>;
+}>;
+
 export type CounttyOptions = {
   table?: string;
   rateLimit?: {
@@ -75,6 +82,5 @@ export type CounttyReturn = {
     env: Env
   ) => {
     router: Router;
-    rateLimit: CounttyRateLimit;
   };
 };

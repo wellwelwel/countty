@@ -5,7 +5,7 @@ import type {
   RateLimitConfig,
   RouteOptions,
 } from '../@types.js';
-import { GlobalCounttyOptions } from '../configs/global.js';
+import { GlobalOptions } from '../configs/global.js';
 import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
@@ -32,8 +32,6 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     blockDurationMs: rateLimitOptions?.blockDurationMs || 10000,
   };
 
-  GlobalCounttyOptions.cacheMs = options?.cacheMs;
-
   const Countty = createDurableObject(stubName);
 
   const rateLimiter = createRateLimiter(rateLimitConfig);
@@ -42,9 +40,13 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     const id = env.countty.idFromName(stubName);
     const stub = env.countty.get(id);
     const context = { request, env, stub };
+    const rateLimit = rateLimiter(request);
+
+    GlobalOptions.user.cacheMs = options?.cacheMs;
+    GlobalOptions.user.rateLimit = rateLimitConfig;
+    GlobalOptions.internal.rateLimit = rateLimit;
 
     return {
-      rateLimit: rateLimiter(request),
       router: {
         backup: (options?: RouteOptions) => backup({ ...context, ...options }),
         create: (options?: RouteOptions) => create({ ...context, ...options }),
@@ -61,7 +63,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
 
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
-      const { router, rateLimit } = createContext(request, env);
+      const { router } = createContext(request, env);
       const { backup, badge, create, list, remove, reset, restore, views } =
         router;
 
@@ -71,13 +73,15 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Max-Age': '1800',
         'Content-Type': 'application/json; charset=utf-8',
-        'X-RateLimit-Limit': String(rateLimitConfig.maxRequests),
-        'X-RateLimit-Remaining': String(rateLimit.remaining),
+        'X-RateLimit-Limit': String(GlobalOptions.user.rateLimit?.maxRequests),
+        'X-RateLimit-Remaining': String(
+          GlobalOptions.internal.rateLimit?.remaining
+        ),
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
       });
 
-      if (!rateLimit.available)
+      if (!GlobalOptions.internal.rateLimit?.available)
         return response({
           headers,
           response: {
@@ -93,7 +97,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
           return new Response(null, { status: 204, headers });
 
         /** Routes */
-        const routes = {
+        const routes = Object.freeze({
           '/create': () => create({ headers }),
           '/views': () => views({ headers }),
           '/badge': () => badge({ headers }),
@@ -102,7 +106,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
           '/restore': () => restore({ headers }),
           '/list': () => list({ headers }),
           '/reset': () => reset({ headers }),
-        } as const;
+        });
 
         if (url.pathname in routes)
           return routes[url.pathname as keyof typeof routes]();

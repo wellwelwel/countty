@@ -1,4 +1,5 @@
 import type { RouteContext } from '../../@types.js';
+import { GlobalOptions } from '../../configs/global.js';
 import { checkToken, getApi } from '../../helpers/auth.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
@@ -8,6 +9,15 @@ export const remove = async (context: RouteContext): Promise<Response> => {
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });
+
+  if (!GlobalOptions.internal.rateLimit?.available)
+    return response({
+      headers,
+      response: {
+        message: 'Request limit exceeded. Please try again later.',
+      },
+      status: 429,
+    });
 
   const api = getApi(request);
 

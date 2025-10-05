@@ -1,12 +1,21 @@
 import type { RouteContext } from '../../@types.js';
 import { getRouteCache, setRouteCache } from '../../configs/cache.js';
-import { GlobalCounttyOptions } from '../../configs/global.js';
+import { GlobalOptions } from '../../configs/global.js';
 import { formatNumber } from '../../helpers/format.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
   const { request, stub, headers, cacheMs } = context;
+
+  if (!GlobalOptions.internal.rateLimit?.available)
+    return response({
+      headers,
+      response: {
+        message: 'Request limit exceeded. Please try again later.',
+      },
+      status: 429,
+    });
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
@@ -34,7 +43,7 @@ export const views = async (context: RouteContext): Promise<Response> => {
       status: 400,
     });
 
-  const cache = cacheMs ?? GlobalCounttyOptions?.cacheMs;
+  const cache = cacheMs ?? GlobalOptions.user?.cacheMs;
   const cached =
     typeof cache === 'number' && cache > 0
       ? getRouteCache(request, cache)
