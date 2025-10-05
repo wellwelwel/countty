@@ -9,7 +9,8 @@
     "remove": "countty remove",
     "backup": "countty backup",
     "list": "countty list",
-    "reset": "countty reset"
+    "reset": "countty reset",
+    "restore": "countty restore"
   },
   "dependencies": {
     "countty": "^1.3.0"
