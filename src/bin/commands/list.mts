@@ -8,7 +8,7 @@ export const list = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
     },
   });
 
-  const content = JSON.parse(data);
+  const content = typeof data === 'string' ? JSON.parse(data) : data;
 
   console.log();
   console.log('Total:', content.total);
