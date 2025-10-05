@@ -1,29 +1,35 @@
 import type { RateLimitData, RouteCacheData } from '../@types.js';
 import { createLRU } from 'lru.min';
+import { getRateLimitKey } from './rate-limit.js';
 
 export const cache = {
   rateLimit: createLRU<string, RateLimitData>({ max: 1000 }),
   route: createLRU<string, RouteCacheData>({ max: 1000 }),
 };
 
-const getRouteCacheKey = (request: Request): string => {
+const getRouteCacheKey = async (request: Request): Promise<string> => {
+  const ip = await getRateLimitKey(request);
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
 
   searchParams.delete('Authorization');
 
-  return `${url.pathname}?${String(searchParams)}`;
+  const key = `${ip}${url.pathname}?${String(searchParams)}`;
+
+  console.log(key);
+
+  return key;
 };
 
-export const getRouteCache = (
+export const getRouteCache = async (
   request: Request,
   ttl: number = 1000
-): {
+): Promise<{
   hit: boolean;
   data?: any;
-} => {
+}> => {
   const now = Date.now();
-  const key = getRouteCacheKey(request);
+  const key = await getRouteCacheKey(request);
   const cached = cache.route.get(key);
 
   if (!cached || now - cached.timestamp >= ttl) return { hit: false };
@@ -31,8 +37,11 @@ export const getRouteCache = (
   return { hit: true, data: cached.data };
 };
 
-export const setRouteCache = (request: Request, data: any): void => {
-  const key = getRouteCacheKey(request);
+export const setRouteCache = async (
+  request: Request,
+  data: any
+): Promise<void> => {
+  const key = await getRouteCacheKey(request);
 
   cache.route.set(key, {
     data,

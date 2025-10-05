@@ -5,7 +5,7 @@ const { Countty, createContext } = createCountty();
 
 const Worker: ExportedHandler<Env> = {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const { router } = createContext(request, env);
+    const { router } = await createContext(request, env);
 
     // Countty Routes
     const customRoute: CounttyRouter = {

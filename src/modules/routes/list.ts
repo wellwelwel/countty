@@ -32,7 +32,7 @@ export const list = async (context: RouteContext): Promise<Response> => {
   const cache = cacheMs ?? GlobalOptions.user?.cacheMs;
   const cached =
     typeof cache === 'number' && cache > 0
-      ? getRouteCache(request, cache)
+      ? await getRouteCache(request, cache)
       : undefined;
 
   if (cached?.hit) {

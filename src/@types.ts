@@ -80,7 +80,7 @@ export type CounttyReturn = {
   createContext: (
     request: Request,
     env: Env
-  ) => {
+  ) => Promise<{
     router: Router;
-  };
+  }>;
 };

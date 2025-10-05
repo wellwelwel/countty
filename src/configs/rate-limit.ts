@@ -1,29 +1,30 @@
 import type { RateLimitConfig } from '../@types.js';
+import { hash } from '../helpers/hash.js';
 import { cache } from './cache.js';
 
-const getRateLimitKey = (request: Request): string => {
+export const getRateLimitKey = async (request: Request): Promise<string> => {
   const ip =
     request.headers.get('CF-Connecting-IP') ||
     request.headers.get('X-Forwarded-For') ||
     'UNKNOWN';
 
-  return String(ip).slice(0, 19);
+  return await hash(ip.slice(0, 19));
 };
 
-export const checkRateLimit = (
+export const checkRateLimit = async (
   request: Request,
   config: RateLimitConfig
-): {
+): Promise<{
   available: boolean;
   remaining: number;
   resetAt?: number;
-} => {
+}> => {
   const maxRequests = config.maxRequests;
   const windowMs = config.windowMs;
   const blockDurationMs = config.blockDurationMs;
 
   const now = Date.now();
-  const key = getRateLimitKey(request);
+  const key = await getRateLimitKey(request);
   const data = cache.rateLimit.get(key);
 
   if (data?.blocked && now < data.resetAt!)

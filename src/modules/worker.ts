@@ -36,11 +36,11 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
 
   const rateLimiter = createRateLimiter(rateLimitConfig);
 
-  const createContext = (request: Request, env: Env) => {
+  const createContext = async (request: Request, env: Env) => {
     const id = env.countty.idFromName(stubName);
     const stub = env.countty.get(id);
     const context = { request, env, stub };
-    const rateLimit = rateLimiter(request);
+    const rateLimit = await rateLimiter(request);
 
     GlobalOptions.user.cacheMs = options?.cacheMs;
     GlobalOptions.user.rateLimit = rateLimitConfig;
@@ -63,7 +63,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
 
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
-      const { router } = createContext(request, env);
+      const { router } = await createContext(request, env);
       const { backup, badge, create, list, remove, reset, restore, views } =
         router;
 
