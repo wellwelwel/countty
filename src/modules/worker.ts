@@ -45,6 +45,16 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     GlobalOptions.user.cacheMs = options?.cacheMs;
     GlobalOptions.user.rateLimit = rateLimitConfig;
     GlobalOptions.internal.rateLimit = rateLimit;
+    GlobalOptions.internal.headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Max-Age': '1800',
+      'Content-Type': 'application/json; charset=utf-8',
+      'X-RateLimit-Limit': String(GlobalOptions.user.rateLimit?.maxRequests),
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+    };
 
     return {
       router: {
@@ -68,17 +78,10 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         router;
 
       const headers = Object.freeze({
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Max-Age': '1800',
-        'Content-Type': 'application/json; charset=utf-8',
-        'X-RateLimit-Limit': String(GlobalOptions.user.rateLimit?.maxRequests),
+        ...GlobalOptions.internal.headers,
         'X-RateLimit-Remaining': String(
           GlobalOptions.internal.rateLimit?.remaining
         ),
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
       });
 
       if (!GlobalOptions.internal.rateLimit?.available)

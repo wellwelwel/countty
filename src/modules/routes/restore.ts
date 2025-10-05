@@ -5,7 +5,15 @@ import { response } from '../../helpers/response.js';
 
 /** Experimental Route. */
 export const restore = async (context: RouteContext): Promise<Response> => {
-  const { request, env, stub, headers } = context;
+  const { request, env, stub, headers: userHeaders } = context;
+
+  const headers = Object.freeze({
+    ...GlobalOptions.internal.headers,
+    ...userHeaders,
+    'X-RateLimit-Remaining': String(
+      GlobalOptions.internal.rateLimit?.remaining
+    ),
+  });
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });

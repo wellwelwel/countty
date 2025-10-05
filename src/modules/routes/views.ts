@@ -6,7 +6,15 @@ import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
 
 export const views = async (context: RouteContext): Promise<Response> => {
-  const { request, stub, headers, cacheMs } = context;
+  const { request, stub, headers: userHeaders, cacheMs } = context;
+
+  const headers = Object.freeze({
+    ...GlobalOptions.internal.headers,
+    ...userHeaders,
+    'X-RateLimit-Remaining': String(
+      GlobalOptions.internal.rateLimit?.remaining
+    ),
+  });
 
   if (!GlobalOptions.internal.rateLimit?.available)
     return response({

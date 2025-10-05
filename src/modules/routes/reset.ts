@@ -4,7 +4,15 @@ import { checkToken, getApi } from '../../helpers/auth.js';
 import { response } from '../../helpers/response.js';
 
 export const reset = async (context: RouteContext): Promise<Response> => {
-  const { request, env, stub, headers } = context;
+  const { request, env, stub, headers: userHeaders } = context;
+
+  const headers = Object.freeze({
+    ...GlobalOptions.internal.headers,
+    ...userHeaders,
+    'X-RateLimit-Remaining': String(
+      GlobalOptions.internal.rateLimit?.remaining
+    ),
+  });
 
   if (request.method !== 'POST')
     return new Response('Method not allowed.', { status: 405 });

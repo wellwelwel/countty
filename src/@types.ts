@@ -59,6 +59,7 @@ export type GlobalCounttyOptions = Readonly<{
   user: CounttyOptions;
   internal: Partial<{
     rateLimit: CounttyRateLimit;
+    headers: Record<string, string>;
   }>;
 }>;
 

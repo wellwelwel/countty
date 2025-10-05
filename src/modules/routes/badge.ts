@@ -14,7 +14,15 @@ const normalizeHexColor = (color?: string): string | undefined => {
 };
 
 export const badge = async (context: RouteContext): Promise<Response> => {
-  const { request, stub, headers, cacheMs } = context;
+  const { request, stub, headers: userHeaders, cacheMs } = context;
+
+  const headers = Object.freeze({
+    ...GlobalOptions.internal.headers,
+    ...userHeaders,
+    'X-RateLimit-Remaining': String(
+      GlobalOptions.internal.rateLimit?.remaining
+    ),
+  });
 
   if (!GlobalOptions.internal.rateLimit?.available)
     return response({
