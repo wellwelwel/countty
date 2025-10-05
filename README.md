@@ -212,6 +212,9 @@ const options: CounttyOptions = {
   // Specifies the table name in the SQLite Durable Object.
   table: 'countty',
 
+  // Sets the global cache for `views`, `badge`, and `list` routes (default: no cache).
+  cacheMs: 1000,
+
   // Rate limiting configuration:
   rateLimit: {
     maxRequests: 100, // Maximum requests allowed in the time window.
@@ -224,6 +227,10 @@ const { Worker, Countty } = createCountty(options);
 
 // ...
 ```
+
+> [!TIP]
+>
+> You can also personalize the `cacheMs` option directly from each route.
 
 > [!IMPORTANT]
 >

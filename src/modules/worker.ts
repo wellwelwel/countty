@@ -5,6 +5,7 @@ import type {
   RateLimitConfig,
   RouteOptions,
 } from '../@types.js';
+import { GlobalCounttyOptions } from '../configs/global.js';
 import { createRateLimiter } from '../configs/rate-limit.js';
 import { response } from '../helpers/response.js';
 import { createDurableObject } from './counter.js';
@@ -30,6 +31,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
     windowMs: rateLimitOptions?.windowMs || 10000,
     blockDurationMs: rateLimitOptions?.blockDurationMs || 10000,
   };
+
+  GlobalCounttyOptions.cacheMs = options?.cacheMs;
 
   const Countty = createDurableObject(stubName);
 

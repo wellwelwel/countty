@@ -28,6 +28,7 @@ export type Env = {
 
 export type RouteOptions = {
   headers?: Record<string, string>;
+  cacheMs?: number;
 };
 
 export type RouteContext = {
@@ -49,6 +50,11 @@ export type RateLimitConfig = {
   blockDurationMs: number;
 };
 
+export type RouteCacheData = {
+  data: any;
+  timestamp: number;
+};
+
 export type CounttyOptions = {
   table?: string;
   rateLimit?: {
@@ -56,6 +62,7 @@ export type CounttyOptions = {
     windowMs?: number;
     blockDurationMs?: number;
   };
+  cacheMs?: number;
 };
 
 export type CounttyRouter = Record<string, CounttyRoutes>;

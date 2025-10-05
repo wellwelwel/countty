@@ -1,6 +1,8 @@
 import type { Format } from 'badge-maker';
 import type { RouteContext } from '../../@types.js';
 import { makeBadge } from 'badge-maker';
+import { getRouteCache, setRouteCache } from '../../configs/cache.js';
+import { GlobalCounttyOptions } from '../../configs/global.js';
 import { formatNumber } from '../../helpers/format.js';
 import { normalizeSlug } from '../../helpers/normalize-chars.js';
 import { response } from '../../helpers/response.js';
@@ -12,7 +14,7 @@ const normalizeHexColor = (color?: string): string | undefined => {
 };
 
 export const badge = async (context: RouteContext): Promise<Response> => {
-  const { request, stub, headers } = context;
+  const { request, stub, headers, cacheMs } = context;
 
   const url = new URL(request.url);
   const slugRaw = url.searchParams.get('slug');
@@ -38,6 +40,22 @@ export const badge = async (context: RouteContext): Promise<Response> => {
       response: { message: 'Slug parameter is required [2].' },
       status: 400,
     });
+
+  const cache = cacheMs ?? GlobalCounttyOptions?.cacheMs;
+  const cached =
+    typeof cache === 'number' && cache > 0
+      ? getRouteCache(request, cache)
+      : undefined;
+
+  if (cached?.hit) {
+    return new Response(cached.data, {
+      headers: {
+        ...headers,
+        'Content-Type': 'image/svg+xml; charset=utf-8',
+        'x-cache': 'HIT',
+      },
+    });
+  }
 
   const badgeOption: Format = Object.create(null);
   const views = await stub.increment(slug);
@@ -78,11 +96,13 @@ export const badge = async (context: RouteContext): Promise<Response> => {
     message,
   });
 
+  setRouteCache(request, svg);
+
   return new Response(svg, {
     headers: {
       ...headers,
       'Content-Type': 'image/svg+xml; charset=utf-8',
-      'Cache-Control': 'no-store',
+      'x-cache': 'MISS',
     },
   });
 };
