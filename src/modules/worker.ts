@@ -14,6 +14,7 @@ import { create } from './routes/create.js';
 import { list } from './routes/list.js';
 import { remove } from './routes/remove.js';
 import { reset } from './routes/reset.js';
+import { restore } from './routes/restore.js';
 import { views } from './routes/views.js';
 
 export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
@@ -49,6 +50,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         badge: (options?: RouteOptions) => badge({ ...context, ...options }),
         remove: (options?: RouteOptions) => remove({ ...context, ...options }),
         reset: (options?: RouteOptions) => reset({ ...context, ...options }),
+        restore: (options?: RouteOptions) =>
+          restore({ ...context, ...options }),
       },
     };
   };
@@ -56,7 +59,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
       const { router, rateLimit } = createContext(request, env);
-      const { backup, badge, create, list, remove, reset, views } = router;
+      const { backup, badge, create, list, remove, reset, restore, views } =
+        router;
 
       const headers = Object.freeze({
         'Access-Control-Allow-Origin': '*',
@@ -97,6 +101,8 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
             return remove({ headers });
           case '/backup':
             return backup({ headers });
+          case '/restore':
+            return restore({ headers });
           case '/list':
             return list({ headers });
           case '/reset':

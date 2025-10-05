@@ -15,6 +15,7 @@ const Worker: ExportedHandler<Env> = {
       '/backup': router.backup,
       '/list': router.list,
       '/reset': router.reset,
+      '/restore': router.restore,
     };
 
     const url = new URL(request.url);

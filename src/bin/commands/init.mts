@@ -2,13 +2,13 @@ import { spawn } from 'node:child_process';
 import { access, writeFile } from 'node:fs/promises';
 import { basename } from 'node:path';
 import { cwd, exit } from 'node:process';
-import { env } from './resources/env.js';
-import { footnote } from './resources/footnote.js';
-import { gitignore } from './resources/gitignore.js';
-import { packageJSON } from './resources/package.js';
-import { tsconfig } from './resources/tsconfig.js';
-import { workerPlugin, workerStandalone } from './resources/worker.js';
-import { wrangler } from './resources/wrangler.js';
+import { env } from './resources/env.mjs';
+import { footnote } from './resources/footnote.mjs';
+import { gitignore } from './resources/gitignore.mjs';
+import { packageJSON } from './resources/package.mjs';
+import { tsconfig } from './resources/tsconfig.mjs';
+import { workerPlugin, workerStandalone } from './resources/worker.mjs';
+import { wrangler } from './resources/wrangler.mjs';
 
 const exists = async (path: string) => {
   try {

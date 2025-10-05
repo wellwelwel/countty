@@ -8,6 +8,7 @@ import { init } from './commands/init.mjs';
 import { list } from './commands/list.mjs';
 import { remove } from './commands/remove.mjs';
 import { reset } from './commands/reset.mjs';
+import { restore } from './commands/restore.mjs';
 import { views } from './commands/views.mjs';
 
 const { args, envPath } = (() => {
@@ -68,19 +69,19 @@ if (!COUNTTY_TOKEN) {
 }
 
 const command = args[0]?.trim().toLowerCase();
-const slug = args[1]?.trim();
+const param = args[1]?.trim();
 
 switch (command) {
   case 'create':
-    await create(slug, COUNTTY_URL, COUNTTY_TOKEN);
+    await create(param, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'views':
-    await views(slug, COUNTTY_URL);
+    await views(param, COUNTTY_URL);
     break;
 
   case 'remove':
-    await remove(slug, COUNTTY_URL, COUNTTY_TOKEN);
+    await remove(param, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   case 'backup':
@@ -93,6 +94,10 @@ switch (command) {
 
   case 'reset':
     await reset(COUNTTY_URL, COUNTTY_TOKEN);
+    break;
+
+  case 'restore':
+    await restore(param, COUNTTY_URL, COUNTTY_TOKEN);
     break;
 
   default:

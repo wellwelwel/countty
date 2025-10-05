@@ -15,6 +15,7 @@ export const createDurableObject = (stubName: string) =>
       this.env = env;
       this.stubName = stubName.trim();
       this.sql = ctx.storage.sql;
+
       this.sql.exec(
         `CREATE TABLE IF NOT EXISTS \`${this.stubName}\`(\`id\` INTEGER PRIMARY KEY, \`slug\` VARCHAR(255) UNIQUE NOT NULL, \`views\` INTEGER DEFAULT 0, \`createdAt\` DATETIME DEFAULT CURRENT_TIMESTAMP);`
       );
@@ -146,5 +147,31 @@ export const createDurableObject = (stubName: string) =>
         filename,
         dump: new TextEncoder().encode(sqlDump),
       };
+    }
+
+    async restore(sqlDump: string): Promise<{ message: string }> {
+      try {
+        const sql = `DROP TABLE IF EXISTS \`${this.stubName}\`;`;
+        const lines = sqlDump
+          .split('\n')
+          .map((line) => line.replace(/--.+/, '').trim())
+          .filter((line) => line !== '')
+          .join('\n')
+          .replace(/\n/g, ' ')
+          .split(';')
+          .map((line) => line.trim())
+          .filter((line) => line !== '');
+
+        this.sql.exec(sql);
+        for (const line of lines) this.sql.exec(line);
+
+        return {
+          message: 'Database restored successfully.',
+        };
+      } catch (error) {
+        return {
+          message: `Failed to restore database: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        };
+      }
     }
   };

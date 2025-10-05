@@ -22,7 +22,8 @@ export const packageJSON = async () => {
     "remove": "countty remove",
     "backup": "countty backup",
     "list": "countty list",
-    "reset": "countty reset"
+    "reset": "countty reset",
+    "restore": "countty restore"
   },
   "dependencies": {
     "countty": "^${basePackageJSON.version}"

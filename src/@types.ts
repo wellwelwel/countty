@@ -12,6 +12,7 @@ type Router = {
   backup: CounttyRoutes;
   list: CounttyRoutes;
   reset: CounttyRoutes;
+  restore: CounttyRoutes;
 };
 
 type CounttyRateLimit = {

@@ -36,7 +36,7 @@ npx -y countty@latest init
 npx -y countty@latest init --plugin
 ```
 
-- **Advanced:** It exposes **Countty** routes, allowing integration with different routes, as well as customization of existing routes.
+- **Advanced:** It exposes **Countty** routes, allowing integration with different routes, as well as customization of existing ones.
 
 ---
 
@@ -63,6 +63,8 @@ npm run dev
 - Creates a new counter for the specified slug.
 - Authentication: **Required**.
 - Method: `POST`.
+- Body:
+  - `slug`: string.
 
 #### `/views` and `/badge` ⭐️
 
@@ -98,10 +100,12 @@ npm run dev
 - Permanently removes the specified slug.
 - Authentication: **Required**.
 - Method: `POST`.
+- Body:
+  - `slug`: string.
 
 #### `/backup`
 
-- Performs a complete backup of the **Countty Durable Object** and returns the **SQL** dump as plain text.
+- Backup the **Countty** used table and returns the **SQL** dump as plain text.
 - Authentication: **Required**.
 - Method: `POST`.
 
@@ -116,6 +120,18 @@ npm run dev
 - ⚠️ Permanently reset the **Countty** **Durable Object**.
 - Authentication: **Required**.
 - Method: `POST`.
+
+#### `/restore`
+
+- ⚠️ Drop the **Countty** used table if it exists, then run the **SQL** dump.
+- ℹ️ Experimental.
+- Authentication: **Required**.
+- Method: `POST`.
+- Body: `string` (send the **SQL** backup content directly).
+
+> [!NOTE]
+>
+> - ⚠️ The `reset` and `restore` routes are destructive actions: use them carefully.
 
 ---
 
@@ -163,9 +179,10 @@ npm run secret # Then put your COUNTTY_TOKEN from .env file.
 - `npx countty create <slug>`: Create a new counter.
 - `npx countty views <slug>`: View counter statistics.
 - `npx countty remove <slug>`: Remove permanently an existing counter.
-- `npx countty backup`: Backup the Countty Durable Object to `./backups/` directory.
+- `npx countty backup`: Backup the **Countty** used table to `./backups/` directory.
 - `npx countty list`: Return the number of slugs and list all **Countty** slugs.
-- `npx countty reset`: Reset all counters permanently.
+- `npx countty reset`: ⚠️ Reset all counters permanently.
+- `npx countty restore <backupPath>.sql`: ⚠️ Drop the **Countty** used table if it exists, then run the **SQL** dump (experimental).
 
 ### Options
 
@@ -174,7 +191,8 @@ npm run secret # Then put your COUNTTY_TOKEN from .env file.
 
 > [!NOTE]
 >
-> It's not possible to use custom routes with the **Counter CLI**.
+> - ℹ️ It's not possible to use custom routes with the **Counter CLI** helper.
+> - ⚠️ The `reset` and `restore` commands are destructive actions: use them carefully.
 
 > [!TIP]
 >
