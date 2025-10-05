@@ -12,13 +12,7 @@ const getRouteCacheKey = async (request: Request): Promise<string> => {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
 
-  searchParams.delete('Authorization');
-
-  const key = `${ip}${url.pathname}?${String(searchParams)}`;
-
-  console.log(key);
-
-  return key;
+  return `${ip}${url.pathname}?${String(searchParams)}`;
 };
 
 export const getRouteCache = async (
