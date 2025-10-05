@@ -8,11 +8,9 @@ export const list = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
     },
   });
 
-  const content = typeof data === 'string' ? JSON.parse(data) : data;
-
   console.log();
-  console.log('Total:', content.total);
+  console.log('Total:', data.total);
   console.log();
-  console.table(content.slugs);
+  console.table(data.slugs);
   console.log();
 };

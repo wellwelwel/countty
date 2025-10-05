@@ -14,6 +14,6 @@ export const remove = async (
     body: JSON.stringify({ slug }),
   });
 
-  console.log(typeof data === 'string' ? JSON.parse(data) : data);
+  console.log(data);
   console.log(`🔗 Removed URL: \x1b[94m\x1b[1m${url}\x1b[0m`);
 };

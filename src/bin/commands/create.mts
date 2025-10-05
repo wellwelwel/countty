@@ -15,7 +15,7 @@ export const create = async (
     body: JSON.stringify({ slug }),
   });
 
-  console.log('✨', data === 'string' ? JSON.parse(data) : data, '\n');
+  console.log('✨', data, '\n');
   console.log(`🔗 Permanent URL: \x1b[94m\x1b[1m${url}\x1b[0m`);
   console.log(`🛡️  Badge: \x1b[94m\x1b[1m${badge}\x1b[0m`);
 };

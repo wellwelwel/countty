@@ -14,5 +14,5 @@ export const restore = async (
     body: await readFile(path, 'utf-8'),
   });
 
-  console.log(typeof data === 'string' ? JSON.parse(data) : data);
+  console.log(data);
 };

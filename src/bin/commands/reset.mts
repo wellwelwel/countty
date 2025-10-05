@@ -8,5 +8,5 @@ export const reset = async (COUNTTY_URL: string, COUNTTY_TOKEN: string) => {
     },
   });
 
-  console.log(typeof data === 'string' ? JSON.parse(data) : data);
+  console.log(data);
 };
