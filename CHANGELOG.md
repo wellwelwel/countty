@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.0.0](https://github.com/wellwelwel/countty/compare/v1.3.0...v2.0.0) (2025-10-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **routes:** use headers from global state
+* **rate limit, cache:** improve privacy by encrypting IP through `SHA-256`
+* **routes:** use rate limit from global state
+
+### Features
+
+* **cache:** add in-memory dynamic cache support ([5bdcfbf](https://github.com/wellwelwel/countty/commit/5bdcfbf9f1e62ad036eed6d896eecb3eef224720))
+* **experimental:** add `restore` route ([954afde](https://github.com/wellwelwel/countty/commit/954afde6100fa9f0f8a3ca25ecbe1d484a5e08e4))
+
+
+### Bug Fixes
+
+* **cli:** handle response for CLI commands ([af6f177](https://github.com/wellwelwel/countty/commit/af6f1771a50aff07c3c8bbff8064ec41b2fe9452))
+
+
+### Miscellaneous Chores
+
+* **rate limit, cache:** improve privacy by encrypting IP through `SHA-256` ([712ef55](https://github.com/wellwelwel/countty/commit/712ef55e5082db864f5af07fede8085193e05a86))
+
+
+### Code Refactoring
+
+* **routes:** use headers from global state ([638a6d9](https://github.com/wellwelwel/countty/commit/638a6d9bb2907d2dc0c9bf985908e6bab3563365))
+* **routes:** use rate limit from global state ([e8cea33](https://github.com/wellwelwel/countty/commit/e8cea33ea1441a6bbda9fa18abcfed2b57d5b2bb))
+
 ## [1.3.0](https://github.com/wellwelwel/countty/compare/v1.2.1...v1.3.0) (2025-10-05)
 
 
