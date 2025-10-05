@@ -90,30 +90,25 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
           return new Response(null, { status: 204, headers });
 
         /** Routes */
-        switch (url.pathname) {
-          case '/create':
-            return create({ headers });
-          case '/views':
-            return views({ headers });
-          case '/badge':
-            return badge({ headers });
-          case '/remove':
-            return remove({ headers });
-          case '/backup':
-            return backup({ headers });
-          case '/restore':
-            return restore({ headers });
-          case '/list':
-            return list({ headers });
-          case '/reset':
-            return reset({ headers });
-          default:
-            return response({
-              headers,
-              response: { message: 'Not found.' },
-              status: 404,
-            });
-        }
+        const routes = {
+          '/create': () => create({ headers }),
+          '/views': () => views({ headers }),
+          '/badge': () => badge({ headers }),
+          '/remove': () => remove({ headers }),
+          '/backup': () => backup({ headers }),
+          '/restore': () => restore({ headers }),
+          '/list': () => list({ headers }),
+          '/reset': () => reset({ headers }),
+        } as const;
+
+        if (url.pathname in routes)
+          return routes[url.pathname as keyof typeof routes]();
+
+        return response({
+          headers,
+          response: { message: 'Not found.' },
+          status: 404,
+        });
       } catch (error) {
         console.error(error);
 

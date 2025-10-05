@@ -71,38 +71,20 @@ if (!COUNTTY_TOKEN) {
 const command = args[0]?.trim().toLowerCase();
 const param = args[1]?.trim();
 
-switch (command) {
-  case 'create':
-    await create(param, COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  case 'views':
-    await views(param, COUNTTY_URL);
-    break;
-
-  case 'remove':
-    await remove(param, COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  case 'backup':
-    await backup(COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  case 'list':
-    await list(COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  case 'reset':
-    await reset(COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  case 'restore':
-    await restore(param, COUNTTY_URL, COUNTTY_TOKEN);
-    break;
-
-  default:
+const route = {
+  create: () => create(param, COUNTTY_URL, COUNTTY_TOKEN),
+  views: () => views(param, COUNTTY_URL),
+  remove: () => remove(param, COUNTTY_URL, COUNTTY_TOKEN),
+  backup: () => backup(COUNTTY_URL, COUNTTY_TOKEN),
+  list: () => list(COUNTTY_URL, COUNTTY_TOKEN),
+  reset: () => reset(COUNTTY_URL, COUNTTY_TOKEN),
+  restore: () => restore(param, COUNTTY_URL, COUNTTY_TOKEN),
+  default: () => {
     console.error(`❌ Command "${command}" not recognized.`);
 
     help();
     exit(1);
-}
+  },
+} as const;
+
+(route[command as keyof typeof route] || route.default)();
