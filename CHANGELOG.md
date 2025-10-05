@@ -5,7 +5,7 @@
 
 ### Features
 
-* accept and propagate headers ([bb25714](https://github.com/wellwelwel/countty/commit/bb25714901e67ab58cd3de418c1fad1841820eb8))
+* **routes:** accept and propagate headers ([bb25714](https://github.com/wellwelwel/countty/commit/bb25714901e67ab58cd3de418c1fad1841820eb8))
 * **init:** create tsconfig.json ([37485ae](https://github.com/wellwelwel/countty/commit/37485ae353ea5917c2fdf1a198afc592b86d9567))
 
 ## [1.2.1](https://github.com/wellwelwel/countty/compare/v1.2.0...v1.2.1) (2025-10-01)
