@@ -1,6 +1,4 @@
-/// <reference types="@cloudflare/workers-types" />
-
-import type { Env } from 'countty';
+import type { CounttyRouter, Env } from 'countty';
 import { createCountty } from 'countty';
 
 const { Countty, createContext } = createCountty();
@@ -9,7 +7,7 @@ const Worker: ExportedHandler<Env> = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const { router, rateLimit } = createContext(request, env);
 
-    const customRoute: Record<string, () => Promise<Response>> = {
+    const customRoute: CounttyRouter = {
       '/create': router.create,
       '/views': router.views,
       '/badge': router.badge,

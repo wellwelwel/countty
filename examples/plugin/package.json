@@ -12,10 +12,10 @@
     "reset": "countty reset"
   },
   "dependencies": {
-    "countty": "^1.2.1"
+    "countty": "^1.3.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251001.0",
-    "wrangler": "^4.40.3"
+    "@cloudflare/workers-types": "^4.20251004.0",
+    "wrangler": "^4.42.0"
   }
 }
