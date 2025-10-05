@@ -1,0 +1,14 @@
+export const tsconfig = `{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@cloudflare/workers-types"
+    ]
+  }
+}
+`;

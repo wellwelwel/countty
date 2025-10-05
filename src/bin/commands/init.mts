@@ -6,6 +6,7 @@ import { env } from './resources/env.js';
 import { footnote } from './resources/footnote.js';
 import { gitignore } from './resources/gitignore.js';
 import { packageJSON } from './resources/package.js';
+import { tsconfig } from './resources/tsconfig.js';
 import { workerPlugin, workerStandalone } from './resources/worker.js';
 import { wrangler } from './resources/wrangler.js';
 
@@ -42,6 +43,7 @@ export const init = async (mode: 'standalone' | 'plugin' = 'standalone') => {
   const currentDir = cwd();
   const path = {
     packageJSON: `${currentDir}/package.json`,
+    tsconfig: `${currentDir}/tsconfig.json`,
     wrangler: `${currentDir}/wrangler.jsonc`,
     worker: `${currentDir}/worker.ts`,
     env: `${currentDir}/.env`,
@@ -74,6 +76,7 @@ export const init = async (mode: 'standalone' | 'plugin' = 'standalone') => {
     createResource(path.env, env),
     createResource(path.gitignore, gitignore),
     createResource(path.packageJSON, await packageJSON()),
+    createResource(path.tsconfig, tsconfig),
   ]);
 
   await npmInstall();

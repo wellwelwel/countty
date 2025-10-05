@@ -2,7 +2,7 @@
   "name": "countty",
   "description": "✚ Easily persist your own autonomous Page View Counter for free (no VPS or database plans required).",
   "version": "1.2.1",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "bin": {
     "countty": "lib/bin/index.mjs"
   },
@@ -22,13 +22,17 @@
   "author": "https://github.com/wellwelwel",
   "scripts": {
     "start": "wrangler dev",
-    "build": "tsc && chmod +x ./lib/bin/index.mjs",
+    "build": "tsc && chmod +x lib/bin/index.mjs",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "npm:patch": "npm version patch --no-git-tag-version",
     "update": "pu minor && npm i && (npm audit fix || true) && npm run lint:fix",
     "typecheck": "tsc --noEmit",
-    "test": "npm run lint && npm run typecheck"
+    "test": "npm run lint && npm run typecheck",
+    "playground:prepare": "npm run build && rm -rf playground && mkdir -p playground",
+    "playground:replace": "cd playground && rm -rf node_modules/countty/lib && cp -r ../lib node_modules/countty/",
+    "playground": "npm run playground:prepare && cd playground && tsx ../src/bin/index.mts init && cd .. && npm run playground:replace",
+    "playground:plugin": "npm run playground:prepare && cd playground && tsx ../src/bin/index.mts init --plugin && cd .. && npm run playground:replace"
   },
   "dependencies": {
     "badge-maker": "^5.0.2",
@@ -49,6 +53,9 @@
     "lib"
   ],
   "peerDependenciesMeta": {
+    "@cloudflare/workers-types": {
+      "optional": true
+    },
     "wrangler": {
       "optional": true
     }

@@ -1,6 +1,7 @@
 /backups
 /lib
 /node_modules
+/playground
 .DS_Store
 .env
 .wrangler

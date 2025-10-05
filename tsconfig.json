@@ -22,8 +22,12 @@
     "noEmitOnError": true,
     "declaration": true,
     "declarationDir": "lib",
-    "outDir": "lib"
+    "outDir": "lib",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@cloudflare/workers-types"
+    ]
   },
   "include": ["src"],
-  "exclude": ["examples", "node_modules", "lib"]
+  "exclude": ["examples", "node_modules", "lib", "playground"]
 }

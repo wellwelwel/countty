@@ -2,7 +2,7 @@ import type { createDurableObject } from './modules/counter.js';
 
 type Countty = InstanceType<ReturnType<typeof createDurableObject>>;
 
-type CounttyRoutes = () => Promise<Response>;
+type CounttyRoutes = (options?: RouteOptions) => Promise<Response>;
 
 type Router = {
   create: CounttyRoutes;
@@ -56,6 +56,8 @@ export type CounttyOptions = {
     blockDurationMs?: number;
   };
 };
+
+export type CounttyRouter = Record<string, CounttyRoutes>;
 
 export type CounttyReturn = {
   Worker: ExportedHandler<Env>;
