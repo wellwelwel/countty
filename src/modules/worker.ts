@@ -13,6 +13,7 @@ import { backup } from './routes/backup.js';
 import { badge } from './routes/badge.js';
 import { create } from './routes/create.js';
 import { list } from './routes/list.js';
+import { peek } from './routes/peek.js';
 import { remove } from './routes/remove.js';
 import { reset } from './routes/reset.js';
 import { restore } from './routes/restore.js';
@@ -62,6 +63,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
         create: (options?: RouteOptions) => create({ ...context, ...options }),
         list: (options?: RouteOptions) => list({ ...context, ...options }),
         views: (options?: RouteOptions) => views({ ...context, ...options }),
+        peek: (options?: RouteOptions) => peek({ ...context, ...options }),
         badge: (options?: RouteOptions) => badge({ ...context, ...options }),
         remove: (options?: RouteOptions) => remove({ ...context, ...options }),
         reset: (options?: RouteOptions) => reset({ ...context, ...options }),
@@ -74,8 +76,17 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
   const Worker: ExportedHandler<Env> = {
     async fetch(request: Request, env: Env): Promise<Response> {
       const { router } = await createContext(request, env);
-      const { backup, badge, create, list, remove, reset, restore, views } =
-        router;
+      const {
+        backup,
+        badge,
+        create,
+        list,
+        peek,
+        remove,
+        reset,
+        restore,
+        views,
+      } = router;
 
       const headers = Object.freeze({
         ...GlobalOptions.internal.headers,
@@ -104,6 +115,7 @@ export const createCountty: (options?: CounttyOptions) => CounttyReturn = (
           '/create': () => create({ headers }),
           '/views': () => views({ headers }),
           '/badge': () => badge({ headers }),
+          '/peek': () => peek({ headers }),
           '/remove': () => remove({ headers }),
           '/backup': () => backup({ headers }),
           '/restore': () => restore({ headers }),

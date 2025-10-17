@@ -6,6 +6,7 @@ import { backup } from './commands/backup.mjs';
 import { create } from './commands/create.mjs';
 import { init } from './commands/init.mjs';
 import { list } from './commands/list.mjs';
+import { peek } from './commands/peek.mjs';
 import { remove } from './commands/remove.mjs';
 import { reset } from './commands/reset.mjs';
 import { restore } from './commands/restore.mjs';
@@ -71,9 +72,10 @@ if (!COUNTTY_TOKEN) {
 const command = args[0]?.trim().toLowerCase();
 const param = args[1]?.trim();
 
-const route = {
+const route = Object.freeze({
   create: () => create(param, COUNTTY_URL, COUNTTY_TOKEN),
   views: () => views(param, COUNTTY_URL),
+  peek: () => peek(param, COUNTTY_URL),
   remove: () => remove(param, COUNTTY_URL, COUNTTY_TOKEN),
   backup: () => backup(COUNTTY_URL, COUNTTY_TOKEN),
   list: () => list(COUNTTY_URL, COUNTTY_TOKEN),
@@ -85,6 +87,6 @@ const route = {
     help();
     exit(1);
   },
-} as const;
+});
 
-(route[command as keyof typeof route] || route.default)();
+(route?.[command as keyof typeof route] || route.default)();

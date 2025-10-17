@@ -8,6 +8,7 @@ type Router = {
   create: CounttyRoutes;
   views: CounttyRoutes;
   badge: CounttyRoutes;
+  peek: CounttyRoutes;
   remove: CounttyRoutes;
   backup: CounttyRoutes;
   list: CounttyRoutes;

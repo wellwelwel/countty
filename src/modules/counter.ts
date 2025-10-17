@@ -47,6 +47,17 @@ export const createDurableObject = (stubName: string) =>
       }
     }
 
+    async peek(slug: string): Promise<number> {
+      try {
+        const sql = `SELECT \`views\` FROM \`${this.stubName}\` WHERE \`slug\` = ?`;
+        const results = this.sql.exec(sql, slug).toArray();
+
+        return Number(results[0]?.views) || 0;
+      } catch {
+        return 0;
+      }
+    }
+
     async create(slug: string): Promise<boolean> {
       const sql = `INSERT INTO \`${this.stubName}\` (\`slug\`, \`views\`, \`createdAt\`) VALUES (?, 0, CURRENT_TIMESTAMP)`;
 

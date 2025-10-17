@@ -95,6 +95,19 @@ npm run dev
 > - **logo**: `<url>/badge?slug:github:profile&logo=PHN2Zy...C9zdmc+`
 >   - An **SVG** directly encoded to [**Base64**](https://www.base64encode.org/).
 
+#### `/peek`
+
+- Peek the view counter for the specified slug.
+- Returns `0` when the slug does not exist.
+- Authentication: **Public**.
+- Method: `GET`.
+
+**Example:**
+
+```sh
+<url>/peek?slug=github:profile
+```
+
 #### `/remove`
 
 - Permanently removes the specified slug.
@@ -177,7 +190,8 @@ npm run secret # Then put your COUNTTY_TOKEN from .env file.
 ### Available Commands
 
 - `npx countty create <slug>`: Create a new counter.
-- `npx countty views <slug>`: View counter statistics.
+- `npx countty views <slug>`: View and increment counter statistics.
+- `npx countty peek <slug>`: View counter statistics.
 - `npx countty remove <slug>`: Remove permanently an existing counter.
 - `npx countty backup`: Backup the **Countty** used table to `./backups/` directory.
 - `npx countty list`: Return the number of slugs and list all **Countty** slugs.

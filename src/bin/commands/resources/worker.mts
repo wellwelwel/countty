@@ -11,6 +11,7 @@ const Worker: ExportedHandler<Env> = {
       '/create': router.create,
       '/views': router.views,
       '/badge': router.badge,
+      '/peek': router.peek,
       '/remove': router.remove,
       '/backup': router.backup,
       '/list': router.list,
