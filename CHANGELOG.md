@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/wellwelwel/countty/compare/v2.0.0...v2.1.0) (2025-10-17)
+
+
+### Features
+
+* **routes:** support peeking a counter without incrementing it ([57a4938](https://github.com/wellwelwel/countty/commit/57a493816107bcf7b51ceaf63ef578cf3f575203))
+
 ## [2.0.0](https://github.com/wellwelwel/countty/compare/v1.3.0...v2.0.0) (2025-10-05)
 
 
