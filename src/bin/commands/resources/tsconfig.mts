@@ -4,11 +4,7 @@ export const tsconfig = `{
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "skipLibCheck": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/@cloudflare/workers-types"
-    ]
+    "skipLibCheck": true
   }
 }
 `;

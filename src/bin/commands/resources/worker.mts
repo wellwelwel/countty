@@ -1,9 +1,11 @@
-export const workerPlugin = `import { createCountty, type CounttyRouter, type Env } from 'countty';
+export const workerPlugin = `/// <reference types="@cloudflare/workers-types" />
+
+import { createCountty, type CounttyRouter, type Env } from 'countty';
 
 const { Countty, createContext } = createCountty();
 
 const Worker: ExportedHandler<Env> = {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request, env) {
     const { router } = await createContext(request, env);
 
     // Countty Routes
