@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/wellwelwel/countty/compare/v2.1.0...v2.1.1) (2025-10-28)
+
+
+### Bug Fixes
+
+* **plugin:** improve types flexibility ([90028ad](https://github.com/wellwelwel/countty/commit/90028ad463224ed1ba14cbb2a95068b48a47f694))
+
 ## [2.1.0](https://github.com/wellwelwel/countty/compare/v2.0.0...v2.1.0) (2025-10-17)
 
 
