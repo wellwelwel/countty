@@ -33,19 +33,19 @@
     "playground:plugin": "npm run playground:prepare && cd playground && tsx ../src/bin/index.mts init --plugin && cd .. && npm run playground:replace"
   },
   "dependencies": {
-    "badge-maker": "^5.0.2",
-    "bcryptjs": "^3.0.2",
-    "lru.min": "^1.1.2"
+    "badge-maker": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "lru.min": "^1.1.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251014.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "@types/node": "^24.9.1",
+    "@cloudflare/workers-types": "^5.20261001.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@types/node": "^26.6.3",
     "packages-update": "^2.0.0",
-    "prettier": "^3.6.2",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "wrangler": "^4.45.1"
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.146.0"
   },
   "files": [
     "lib"

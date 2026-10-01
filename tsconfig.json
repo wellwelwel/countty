@@ -20,13 +20,11 @@
     "allowJs": false,
     "skipLibCheck": true,
     "noEmitOnError": true,
+    "rootDir": "src",
     "declaration": true,
     "declarationDir": "lib",
     "outDir": "lib",
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/@cloudflare/workers-types"
-    ]
+    "types": ["node", "@cloudflare/workers-types"]
   },
   "include": ["src"],
   "exclude": ["examples", "node_modules", "lib", "playground"]

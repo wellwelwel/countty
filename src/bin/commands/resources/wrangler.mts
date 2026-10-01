@@ -6,7 +6,7 @@ export const wrangler = `/**
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "countty",
   "main": "worker.ts",
-  "compatibility_date": "2025-10-11",
+  "compatibility_date": "2026-10-01",
   "send_metrics": false,
   "compatibility_flags": ["nodejs_compat"],
   "durable_objects": {
